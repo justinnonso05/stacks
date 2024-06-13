@@ -33,7 +33,6 @@ CSRF_TRUSTED_ORIGINS = ["https://51de-105-113-60-134.ngrok-free.app"]
 # Application definition
 # postgres://justin:vaXGb1ywocnoikKex1UJKwIMjL7zKzJ1@dpg-cpl3oeg21fec7385chq0-a.oregon-postgres.render.com/stacks_g7ix
 INSTALLED_APPS = [
-    'viewflow',
     'main.apps.MainConfig',
     'user.apps.UserConfig',
     'django.contrib.admin',
