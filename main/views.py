@@ -184,3 +184,6 @@ def like_post(request, post_id):
 		post.likes.add(request.user)
 
 	return redirect(request.META.get('HTTP_REFERER', 'redirect_if_refer_not_found'))
+
+
+# wow
