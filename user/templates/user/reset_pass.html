@@ -1,0 +1,125 @@
+{% extends "main/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<style type="text/css">
+		div.bottom-nav {
+			display: none;
+		}
+		div.right-side {
+			display: none;
+		}
+		div.menu {
+			display: none;
+		}
+		div.content {
+			padding-left: 0px;
+			padding-right: 0px;
+			margin-top: 0px;
+			display: grid;
+/*			min-height: 100vh;*/
+			grid-template-columns: repeat(1, 1fr);
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			justify-items: center;
+		}
+		button.submit {
+			width: 100%;
+			margin-top: 20px;
+			margin-bottom: 35px;
+		}
+		#id_username, #id_password {
+			background: transparent;
+			border: 2px solid white;
+			box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, .4);
+		}
+		div.login-content {
+			margin-top: 55px;
+		}
+		div.form {
+			text-align: left;
+		}
+		div.form-div {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+		}
+		a.forgot-pas {
+			align-self: right;
+			justify-self: right;
+		}
+		@media only screen and (max-height: 690px) {
+
+			}
+		@media only screen and (max-width: 800px) {
+			nav a.login {
+				margin-right: -30px;
+			}
+			footer {
+				font-size: small;
+				width: 90%;
+			}
+			header {
+				padding-left: 15px;
+			}
+			div.login-content {
+				width: 95%;
+				align-self: center;
+				justify-self: center;
+			}
+			@media only screen and (max-width: 380px) {
+				div.login-content {
+					border-radius: 0px;
+					box-shadow: none;
+				}
+			}
+			@media only screen and (max-height: 530px) {
+				div.login-content {
+					margin-top: 55px;
+				}
+			}
+		}
+	</style>
+	<div class="login-content">
+		<p class="login">Password Reset</p>
+		<form method="POST">
+			{% csrf_token %}
+			<div class="form">
+				<p>Reset your password. Enter your email address below, and we’ll email instructions for setting a new one</p>
+				{{ form|crispy }}
+			</div>
+			<button class="submit" type="submit">Reset my password</button>
+		</form>
+	</div>
+	<footer>
+		<div>&copy; 2024</div>
+	</footer>
+	<script>
+		// Function to handle the JavaScript code based on screen sizes
+	    function handleScreenSizes(mql) {
+	      if (mql.matches) {
+	        // Code to execute when the media query matches the condition
+	        // JavaScript code to set the height of the element dynamically
+		    function setElementHeight() {
+		      const dynamicElement = document.getElementById('dynamic-element1');
+		      // const dynamicElement2 = document.getElementById('signup');
+		      const bodyHeight = document.body.clientHeight;
+		      dynamicElement.style.height = `${bodyHeight}px`;
+		      // dynamicElement2.style.height = `${bodyHeight}px`;
+		    }
+		    setElementHeight()
+	      } else {
+	        // Code to execute when the media query does not match the condition
+	        console.log("JavaScript code for smaller screen sizes");
+	      }
+	    }
+
+	    // Create a media query for smaller screen sizes
+	    const SmallerScreenQuery = window.matchMedia("(max-width: 780px)");
+
+	    // Attach the event listener to call the handleScreenSizes function
+	    SmallerScreenQuery.addListener(handleScreenSizes);
+
+	    // Call the handleScreenSizes function initially
+	    handleScreenSizes(SmallerScreenQuery);
+    </script>
+{% endblock content %}

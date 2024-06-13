@@ -1,0 +1,145 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block content %}
+    <style type="text/css">
+    	div.right-side, div.menu {
+            display: none;
+        }
+    	div.discover {
+    		text-align: left;
+    		width: 100%;
+    		padding: 9px;
+    		margin: 0px;
+    	}
+    	h3.feed {
+    		font-weight: 800;
+    		margin: 7px 0px;
+    	}
+        div.photo-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            grid-gap: 10px;
+            justify-items: left;
+            align-content: left;
+            text-align: left;
+            justify-content: left;
+            /*box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, .08);*/
+            width: 100%;
+            height: auto;
+            background-color: transparent;
+            border-radius: 4px;
+            padding: 0px;
+        }
+        .post-image {
+            width: 100%;
+            height: auto;
+        }
+        div.profile-posts {
+            padding: 0px 8px;
+        }
+       
+        div.home {
+            padding: 0px;
+
+        }
+        @media only screen and (max-width: 800px) {
+            div.content {
+                grid-template-columns: repeat(1, 1fr);
+            }
+            div.nothing {
+	    		display: none;
+	    	}
+            div.home { 
+                width: 100%;
+            }
+            div.menu.active {
+                display: block;
+            }
+            div.menu {
+                display: none;
+                position: static;
+/*              width: 100px;*/
+            }
+            #allPosts.active {
+                display: none;
+            }
+            div.profile-container {
+                padding: 0px 0px;
+                scrollbar-width: 0px;
+                scrollbar-color: transparent transparent;
+            }
+        }
+        @media only screen and (min-width: 800px) {
+        	div.home {
+        		display: none;
+        	}
+        	div.nothing {
+        		display: block;
+        	}
+        }
+    </style>
+
+    <div class="nothing">
+    		Oops! This page can only be viewed on mobile
+    </div>
+    <div class="home" id="allPosts">
+      <div class="posts-container">
+          <h3 class="feed">Announcements</h3>
+          <div class="photo-grid">
+				<div class="discover">
+				 	<h4>General Announcement</h4>
+				 	<p><i class="fa fa-circle"></i>&nbsp;Start Reading</p>
+				</div>
+				<div class="discover">
+				 	<h4>Upcoming Events</h4>
+				 	<p><i class="fa fa-circle"></i>&nbsp;200 Level Resumption</p>
+				</div> 
+				<div class="discover">
+				 	<h4>Important Notice</h4>
+				 	<p><i class="fa fa-circle"></i>&nbsp;The site shall be open to everyone for the first few hours after launch to get reviews and feedback from the general public.</p><br><p>Kindly note that the accounts for all non NACOSites UI 2023 session shall be revoked after the stipulated time</p>
+				</div>
+      		</div>
+      	</div>
+     </div>
+    <script type="text/javascript">
+        var message = document.getElementById('message');
+        var alert = document.getElementById('alert');
+        var topProfile = document.getElementById('top-profile');
+        var allPosts = document.getElementById('allPosts');
+        var menu = document.getElementById('menu');
+
+        topProfile.addEventListener('click', () => {
+            menu.classList.toggle('active')
+            allPosts.classList.toggle('active')
+            add.classList.toggle('active')
+        });
+        message.addEventListener('click', () => {
+            alert.classList.add('hide')
+        });
+    </script>
+
+{% endblock content%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

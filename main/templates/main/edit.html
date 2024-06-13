@@ -1,0 +1,173 @@
+{% extends "main/base.html" %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+    <style type="text/css">
+      div.bottom-nav {
+        display: none;
+      }
+    	input[type='checkbox'], form a, label[for='Post_image-clear_id'] {
+          display: none;
+          text-align: center;
+      }
+      input[type='file'] {
+          display: none;
+          text-align: center;
+      }
+      label.add-image {
+          cursor: pointer;
+          font-weight: 600;
+          padding: 5px;
+          transition: .5s;
+          border-radius: 4px;
+      }
+      label.add-image:hover {
+          background-color: rgba(0, 0, 0, .1);
+      }
+      img.profile {
+          border-radius: 3px;
+          height: auto;
+          width: 160px;
+      }
+      #image-preview {
+          margin-bottom: 25px;
+      }
+     @media only screen and (max-width: 800px) {
+          #allPosts.active {
+              display: none;
+          }
+          img.profile {
+              width: 150px !important;
+          }
+          div.right-side {
+              display: none;
+          }
+          header {
+              padding-left: 15px;
+          }
+          div.content {
+              grid-template-columns: repeat(1, 1fr);
+          }
+          div.menu.active {
+              display: block;
+          }
+
+          div.create-post {
+              margin: 0px;
+          }
+          div.menu {
+              display: none;
+              position: static;
+              width: 100px;
+          }
+          div.posts-container.active {
+              display: none;
+          }
+          div.post-button.active {
+              display: none;
+          }
+          div.post-button {
+              display: flex;
+          }
+          div.posts-container {
+              padding-left: 3px;
+              padding-right: 3px;
+              display: grid;
+          }
+
+          p.content {
+              padding-left: 10px;
+          }
+          div.posts {
+              border-radius: 4px;
+          }
+          div.content {
+              padding: 0px;
+/*                  justify-items: center;*/
+          }
+          div.content * {
+              width: auto;
+          }
+          div.home {
+              padding-left: 7px;
+              padding-right: 7px;
+              margin: 0px;
+          }
+          div.add-new {
+              display: none;
+              margin-left: 3px;
+              margin-right: 3px;
+          }
+     }
+    </style>
+
+    <div class="create-post" id="allPosts">
+        <h2>Edit Post</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form">
+                <div class="form-group">
+                    <!-- <label for="content">Full Name:</label> -->
+                    {{ form.content|attr:"placeholder:What's on your mind?" }}
+                </div>
+                 <div class="form-group">
+                    <label class="add-image" for="id_Post_image"><i class="fa fa-image"></i>&nbsp;Add Photo</label>
+                    {{ form.Post_image|attr:"onchange:previewImage(event)" }}
+                </div>
+            </div>
+            <div id="image-preview"></div>
+            <button class="submit" type="submit">Post</button>
+        </form>
+    </div>
+
+    <script type="text/javascript">
+        function previewImage(event) {
+            var input = event.target;
+            var preview = document.getElementById('image-preview');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.innerHTML = '<img class="profile" src="' + e.target.result + '">';
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        var message = document.getElementById('message');
+        var alert = document.getElementById('alert');
+        var topProfile = document.getElementById('top-profile');
+        var allPosts = document.getElementById('allPosts');
+        var menu = document.getElementById('menu');
+
+        topProfile.addEventListener('click', () => {
+            menu.classList.toggle('active')
+            allPosts.classList.toggle('active')
+            add.classList.toggle('active')
+        });
+        message.addEventListener('click', () => {
+            alert.classList.add('hide')
+        });
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to remove specific text nodes
+            function removeTextNodes(parent, textToRemove) {
+                Array.from(parent.childNodes).forEach(node => {
+                    if (node.nodeType === Node.TEXT_NODE && node.nodeValue.includes(textToRemove)) {
+                        node.nodeValue = node.nodeValue.replace(textToRemove, '');
+                    } else if (node.nodeType === Node.ELEMENT_NODE) {
+                        removeTextNodes(node, textToRemove);
+                    }
+                });
+            }
+
+            // Remove "currently" and "change" text
+            removeTextNodes(document.body, "Currently:");
+            removeTextNodes(document.body, "Change:");
+        });
+    </script>
+{% endblock content %}

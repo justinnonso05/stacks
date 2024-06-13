@@ -1,0 +1,204 @@
+{% load static %}
+<!DOCTYPE html>
+<html data-theme="light">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="icon" type="image/x-icon" href="{% static 'main/logo0.png' %}">
+    <link rel="manifest" href="{% static 'main/manifest.json' %}">
+<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <!-- fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'main/darkstyle.css' %}" id="dark-mode-stylesheet">
+	<!-- .....theme....? -->
+	<script type="text/javascript">
+		(function () {
+			const darkModeStylesheet = document.getElementById("dark-mode-stylesheet");
+			const isDarkMode = localStorage.getItem('isDarkMode') === 'true';
+			if (isDarkMode) {
+				document.documentElement.setAttribute('data-theme', 'dark');
+				darkModeStylesheet.setAttribute('href', "{% static 'main/darkstyle.css' %}");
+			} else {
+				document.documentElement.setAttribute('data-theme', 'light');
+				darkModeStylesheet.setAttribute('href', "");
+			}
+		})();
+	</script>
+	<!-- .......end.....? -->
+	<title>CSCUI23 | {{ title }}</title>
+</head>
+
+<body>
+	<header>
+		<!-- <label class="logo">Code<span>Hub</span></label> -->
+		<label class="logo light"><a href="{% url 'home' %}"><img src="{% static 'main/stacks1.png' %}"></a></label>
+		<label class="logo dark"><a href="{% url 'home' %}"><img src="{% static 'main/stacks3.png' %}"></a></label>
+		<nav>
+
+			{% if request.user.is_authenticated %}
+				<div class="nav-logged">
+					<div class="search"><i id="search-icon-mob" class="fa fa-search"></i><form action="{% url 'search' %}" method="get" class="search-form" id="search_form"><button class="search" type="submit"><i id="search-icon" class="fa fa-search"></i></button><input class="search" type="search" name="key" placeholder="Search posts"><i id="search-times" class="fa fa-times"></i></form>
+					</div>
+					{% if request.user.profile.Profile_picture %}
+						<a class="top-profile-des" href="{% url 'user-profile' request.user.username %}"><img class="top-profile" src="{{ request.user.profile.Profile_picture.url }}">Profile</a>
+						<a class="top-profile-mob" href="#" id="top-profile"><img class="top-profile" src="{{ request.user.profile.Profile_picture.url }}"></a>
+					{% else %}
+						<a class="top-profile-des" href="{% url 'user-profile' request.user.username %}"><img class="top-profile" src="{% static 'main/default.jpg' %}">Profile</a>
+						<a class="top-profile-mob" href="#" id="top-profile"><img class="top-profile" src="{% static 'main/default.jpg' %}"></a>
+					{% endif %}
+				</div>
+			{% else %}
+				<div class="nav-no-logged">
+					<a class="login" href="#">Go back</a>
+			{% endif %}
+			</div>
+		</nav>
+	</header>
+	<div class="content" id="dynamic-element1">
+		<div class="menu" id="menu">
+			<div class="user">
+				{% if request.user.is_authenticated %}
+					{% if request.user.profile.Profile_picture %}
+						<p><a href="{% url 'user-profile' request.user.username %}"><img src="{{ request.user.profile.Profile_picture.url }}"></a></p>
+					{% else %}
+						<p><a href="{% url 'user-profile' request.user.username %}"><img src="{% static 'main/default.jpg' %}"></a></p>
+					{% endif %}
+					<p class="fullname"><a class="post-author" href="{% url 'user-profile' request.user.username %}">{{ user.profile.full_name }}</a></p>
+					<p class="username">@{{ request.user.username }}</p>
+				{% else %}
+					<a href="{% url 'login' %}">Login</a>
+			{% endif %}
+			</div>
+			<div class="dark-theme">
+                <label>Dark Theme</label>
+                <label class="switch" title="Toggle light/dark mode">
+                    <input type="checkbox" class="toggle-switch">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+			<div class="menu-items">
+				<a class="desk-item" href="{% url 'home' %}"><i class="fa fa-home"></i>Home</a><hr class="desk-hr">
+				<a class="desk-item" href="{% url 'calendar' %}"><i class="fa fa-users"></i>Groups</a><hr class="desk-hr">
+				<a class="desk-item" href="{% url 'message' %}"><i class="fa fa-envelope"></i>Messages</a><hr class="desk-hr">
+				<a class="desk-item" href="{% url 'materials' %}"><i class="fa fa-book"></i>Materials</a><hr class="desk-hr">
+				<a class="desk-item" href="{% url 'password_reset' %}">Reset Password</a><hr class="desk-hr">
+				<a href="{% url 'announcement' %}" class="mob-item">Announcements</a><hr class="mob-hr">
+				<a href="{% url 'password_reset' %}" class="mob-item">Reset Password</a><hr class="mob-hr">
+			<!-- 	<a href="#" class="mob-item">About</a><hr class="mob-hr">
+				<a href="#" class="mob-item">Terms and Conditions</a><hr class="mob-hr">
+				<a href="#" class="mob-item">Privacy</a><hr class="mob-hr"> -->
+				
+				{% if request.user.is_authenticated %}
+				<form method="POST" action="{% url 'logout' %}">
+					{% csrf_token %}
+					<button type="submit" class="logout"><i class="fa fa-sign-out"></i> Logout</button>
+				</form>
+
+				{% else %}
+				<a href="{% url 'login' %}"><i class="fa fa-sign-in"></i>Login</a>
+				{% endif %}
+			</div>
+		</div>
+
+		{% block content %}{% endblock %}
+		<div class="right-side" id="right-side">
+			<div class="discover">
+			 	<h4>Announcements</h4>
+			 	<p><i class="fa fa-circle"></i>&nbsp;Start Reading</p>
+			</div>
+			<div class="discover">
+			 	<h4>Upcoming Events</h4>
+			 	<p><i class="fa fa-circle"></i>&nbsp;200 Level Resumption</p>
+			</div>
+			<div class="discover">
+			 	<h4>Important Notice</h4>
+			 	<p><i class="fa fa-circle"></i>&nbsp;The site shall be open to everyone for the first few hours after launch to get reviews and feedback from the general public.</p><br><p>Kindly note that the accounts for all non NACOSites UI 2023 session shall be revoked after the stipulated time</p>
+			</div>
+		 	<div class="copywright">
+				<div>&copy; 2024</div>
+			</div>
+		</div>
+	</div>
+	<div class="bottom-nav">
+		<a href="{% url 'home' %}"><i class="fa fa-home"></i></a>
+		<a href="{% url 'calendar' %}"><i class="fa fa-users"></i></a>
+		<a href="{% url 'create-post' %}"><i class="fa fa-plus"></i></a>
+		<a href="{% url 'materials' %}"><i class="fa fa-book"></i></a>
+		<a href="{% url 'message' %}"><i class="fa fa-envelope"></i></a>
+	</div>
+
+	<script>
+		var search_desk = document.getElementById('search_form');
+		var top_profile = document.getElementById('top-profile');
+		search = document.getElementById('search-icon-mob');
+		times = document.getElementById('search-times');
+
+		document.addEventListener("DOMContentLoaded", function() {
+			const toggleSwitch = document.querySelector('.toggle-switch');
+			const darkModeStylesheet = document.getElementById('dark-mode-stylesheet');
+			const isDarkMode = localStorage.getItem('isDarkMode') === 'true';
+
+			if (isDarkMode) {
+				toggleSwitch.checked = true;
+				document.documentElement.setAttribute('data-theme', 'dark');
+				darkModeStylesheet.setAttribute('href', "{% static 'main/darkstyle.css' %}");
+			} else {
+				document.documentElement.setAttribute('data-theme', 'light');
+				darkModeStylesheet.setAttribute('href', "");
+			};
+
+			toggleSwitch.addEventListener('change', function() {
+				if (this.checked) {
+					darkModeStylesheet.setAttribute('href', "{% static 'main/darkstyle.css' %}");
+					localStorage.setItem('isDarkMode', 'true');
+					document.documentElement.setAttribute('data-theme', 'dark');
+				} else {
+					darkModeStylesheet.setAttribute('href', "");
+					localStorage.setItem('isDarkMode', 'false');
+					document.documentElement.setAttribute('data-theme', 'light');
+				}
+			});
+		});
+
+		document.getElementById('search-icon-mob').addEventListener('click', () => {
+			search_desk.classList.add('active')
+			top_profile.classList.add('active')
+			search.classList.add('active')
+			times.classList.add('active')
+		});
+
+		document.getElementById('search-times').addEventListener('click', () => {
+			search_desk.classList.remove('active')
+			times.classList.remove('active')
+			search.classList.remove('active')
+			top_profile.classList.remove('active')
+		});
+		function copy(url, pk) {
+			var copyText = document.getElementById('urlCopy');
+			var span1 = document.getElementById('urlAlert1-'+pk);
+			var span = document.getElementById('urlAlert-'+pk);
+			copyText.value = url
+			copyText.select();
+			copyText.setSelectionRange(0, 99999);
+			navigator.clipboard.writeText(copyText.value);
+			console.log("Url copied" + copyText.value);
+			span.style.display = "block";
+			span1.style.display = "block";
+			setTimeout(function() {
+				span.style.display = 'none';
+				span1.style.display = 'none';
+			}, 2000);
+		}
+	</script>
+    <!-- <script>
+        if (typeof.serviceWorker !== "undefined") {
+            navigator.serviceWorker.register("{% static 'main/sw.js' %}")
+        } -->
+    </script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

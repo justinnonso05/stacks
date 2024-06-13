@@ -1,0 +1,439 @@
+{% extends "main/base.html" %}
+{% load static %}
+	{% block content %}
+	<style type="text/css">
+		div.add-new a.input {
+			background-color: transparent;
+			text-decoration: none;
+			padding: 0px;
+		}
+		div.add-new input {
+			width: 102%;
+			cursor: pointer;
+			position: relative;
+			left: -10px;
+		}
+		div.featured-image a.featured-name {
+			/* align-self: end; */
+			color: white;
+			text-decoration: none;
+			font-size: 12px;
+		}
+		div.featured-container {
+			margin-top: 10px;
+		}
+		div.featured-wrapper {
+			display: flex;
+			/* width: 100%; */
+			overflow-x: scroll;
+			gap: 10px;
+			padding-bottom: 5px;
+			padding-top: 12px;
+			padding-bottom: 12px;
+			padding-left: 5px;
+			border-radius: 3px;
+		}
+		div.featured-wrapper::-webkit-scrollbar {
+			display: none !important; 
+		}
+		
+		div.featured-image {
+			/* display: grid;
+			align-items: end; */
+			border-radius: 50%;
+			align-items: center;
+			align-content: center;
+			justify-content: center;
+			justify-items: center;
+			min-width: 80px;
+			max-width: 80px;
+			height: 80px;
+			box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, .1);
+			background-color: black;
+			overflow: hidden;
+			border: 4px solid rgb(5, 87, 201);
+			transition: .3s;
+		}
+		div.featured-image:hover {
+			min-width: 83px;
+			max-width: 83px;
+			height: 83px;
+		}
+		div.featured-image img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			border-radius: 50%;
+			border: 2px solid rgb(255, 255, 255);
+		}
+		h2.featured {
+			font-size: 23px;
+		}
+		
+		@media only screen and (max-width: 800px) {
+			div.posts-container::-webkit-scrollbar  {
+				display: none !important;
+			}
+			div.share {
+				padding: 5px 6px;
+			}
+			a.comment {
+				padding: 5px 4px 5px 8px;
+			}
+		}
+		div.posts p.content {
+			padding-left: 0px;
+			margin-left: 0px;
+		}
+		div.share label {
+			cursor: pointer;
+		}
+	  #copy_link:hover {
+	  	cursor: pointer;
+	  }
+	  /*.... copy........*/
+		div.likes {
+			margin-top: -10px;
+		}
+		form.like button {
+			background-color: transparent;
+			border: none;
+			cursor: pointer;
+			outline: none;
+		}
+		@keyframes add {
+			0% {
+				right: -500px;
+			}
+			100% {
+				right: 10px;
+			}
+		}
+		div.add-new a.new {
+			background-color: rgb(23, 80, 164);
+		}
+		div.alert-success {
+			animation-name: add;
+			animation-duration: 1s;
+			animation-iteration-count: 1;
+			width: 300px;
+			opacity: .99;
+			z-index: 99;
+			border: 1px solid green;
+			right: 10px;
+			display: grid;
+			grid-template-columns: 1fr .1fr;
+			position: absolute;
+		}
+		div.alert-success i {
+			cursor: pointer;
+		}
+		#alert.hide {
+			display: none;
+		}
+		img.logo {
+			height: 40px;
+			width: auto;
+			margin-top: -3px;
+		}
+		div.content {
+			grid-template-columns: .4fr .9fr .3fr;
+		}
+
+		/*div.comment div.like {
+			margin-right: 100px;
+		}*/
+		div.post-image {
+			width: 100%;
+			display: grid;
+			margin-bottom: 10px;
+			box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, .2);
+			grid-template-columns: repeat(1, 1fr);
+			align-items: center;
+			text-align: center;
+			justify-content: center;
+			justify-items: center;
+		}
+		div.post-image img {
+			max-width: 100%;
+		}
+		div.user p {
+			padding-top: 10px;
+		}
+
+		h2.feed {
+			margin-top: 10px;
+			font-weight: 600;
+			font-size: 23px;
+			font-family: 'poppins';
+		}
+		div.post-button {
+/*				width: 170px;*/
+/*				height: 70px;*/
+			position: fixed;
+			display: none;
+			text-align: center;
+			align-items: center;
+			justify-items: center;
+			bottom: 35px;
+			right: 20px;
+			background-color: black;
+			border-radius: 40%;
+			padding: 17px;
+			color: white;
+			cursor: pointer;
+			background-color: rgba(24, 16, 180, 1);
+			box-shadow: 0px 0px 8px 1px rgba(24, 16, 180, .5);
+		}
+		a.comment {
+			text-decoration: none;
+			color: black;
+			cursor: pointer;
+		}
+		a.comment label {
+			cursor: pointer;
+		}
+		div.author {
+			position: relative;
+		}
+		div.posthead {
+/*			position: relative;*/
+			display: grid;
+			grid-template-columns: 1fr .1fr;
+		}
+		div.posthead i {
+			position: absolute;
+			right: 10px;
+		}
+		i.fa-ellipsis-v {
+		    border-radius: 5px;
+		    padding: 10px;
+		}
+		div.postmenu {
+			position: absolute;
+			right: 5px;
+			top: 40px;
+			display: none;
+			flex-direction: column;
+			background-color: rgba(255, 255, 255, .5);
+			backdrop-filter: blur(10px);
+			box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, .1);
+			border-radius: 7px;
+			padding: 5px 4px;
+			justify-items: center;
+			justify-content: center;
+			z-index: 99;
+		}
+
+		div.postmenu span {
+
+			margin-bottom: 3px;
+			border-radius: 5px;
+			padding: 5px 5px;
+/*			border-bottom: 1px solid gray;*/
+		}
+		@media only screen and (max-width: 800px) {
+			div.posts-container h2.feed {
+				margin-top: 14px;
+			}
+			header {
+				padding-left: 15px;
+			}
+			div.content {
+				grid-template-columns: repeat(1, 1fr);
+			}
+			div.menu.active {
+				display: block;
+			}
+
+
+			div.menu {
+				display: none;
+				position: static;
+/*				width: 100px;*/
+			}
+			div.home.active {
+				display: none;
+			}
+			div.post-button.active {
+				display: none;
+			}
+			div.post-button {
+				display: flex;
+			}
+			
+			p.content {
+				padding-left: 10px;
+			}
+			div.posts {
+				border-radius: 4px;
+				max-width: 100vw;
+			}
+			div.content {
+				padding: 0px;
+/*					justify-items: center;*/
+			}
+			div.content * {
+				width: auto;
+			}
+			div.home {
+				padding-left: 7px;
+				padding-right: 7px;
+				margin: 0px;
+				scrollbar-width: none;
+				margin-top: 10px;
+			}
+			div.add-new {
+				display: none;
+				margin-left: 3px;
+				margin-right: 3px;
+			}
+			div.comment label {
+				display: none;
+			}
+			div.comment-dark label {
+				display: none;
+			}
+			@media only screen and (max-width: 580px) {
+				div.posts-container {
+					padding-left: 0px;
+					padding-right: 0px;
+					display: grid;
+				}
+				h2.featured, h2.feed {
+					margin-left: 10px;
+				}
+				div.home {
+					padding-left: 0px;
+					padding-right: 0px;
+					margin: 0px;
+				}
+				div.posts {
+					border-radius: 0px;
+					margin-top: 5px;
+				}
+				div.featured-wrapper {
+					width: 100vw;
+					padding-left: 9px;
+				}
+				/* div.featured-container {
+					width: 98vw;
+				} */
+			}
+		}
+	</style>
+	<div class="home" id="allPosts">
+		{% if messages %}
+			{% for message in messages %}
+				<div class="alert alert-{{ message.tags }}" id="alert">
+					{{ message }}
+					<i class="fa fa-times" id="message"></i>
+				</div>
+			{% endfor %}
+		{% endif %}
+		<div class="add-new">
+			<a href="{% url 'create-post' %}" class="input"><input type="text" name="new-post" placeholder="Add a post..."></a><a class="new" href="{% url 'create-post' %}">Create Post</a>
+		</div>
+		<div class="posts-container">
+			<div class="featured-container">
+				<h2 class="featured">Featured Posts</h2>
+				<div class="featured-wrapper">
+					{% for post in posts %}
+						{% if post.Post_image %}
+							<div class="featured-image"><a href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}"><img class="featured-image" src="{{ post.Post_image.url }}"></a></div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+			<h2 class="feed">All Posts</h2>
+			{% for post in posts %}
+				<div class="posts" id="current-post-{{ post.pk }}">
+					<div class="author">
+						{% if post.author.Profile_picture %}
+							<a href="{% url 'user-profile' post.author.user.username %}"><img src="{{ post.author.Profile_picture.url }}"></a><div class="posthead"><h2 class="author"><a class="post-author" href="{% url 'user-profile' post.author.user.username %}">{{ post.author.full_name }}{% if post.author.verified %}<img class="verified" src="{% static 'main/verified.png' %}">{% endif %}</a><br><span class="date">{{ post.date_posted }}</h2><span><i onclick="drop('{{ post.pk }}')" class="fa fa-ellipsis-v"></i></span><div class="postmenu" id="post-{{ post.pk }}">{% if post.author == request.user.profile %}<span><a href="{% url 'delete-post' post.pk %}">Delete post</a></span><span><a href="{% url 'edit-post' post.pk %}">Edit post</a></span>{% endif %}<span><a class="view" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}">View Post</a></span></div></div>
+						{% else %}
+							<a href="{% url 'user-profile' post.author.user.username %}"><img src="{% static 'main/default.jpg' %}"></a><div class="posthead"><h2 class="author"><a class="post-author" href="{% url 'user-profile' post.author.user.username %}">{{ post.author.full_name }}{% if post.author.verified %}<img class="verified" src="{% static 'main/verified.png' %}">{% endif %}</a><br><span class="date">{{ post.date_posted }}</h2><span><i onclick="drop('{{ post.pk }}')" class="fa fa-ellipsis-v"></i></span><div class="postmenu" id="post-{{ post.pk }}">{% if post.author == request.user.profile %}<span><a href="{% url 'delete-post' post.pk %}">Delete post</a></span><a href="{% url 'edit-post' post.pk %}"><span>Edit post</span></a>{% endif %}<span><a class="view" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}">View Post</a></span></div></div>
+						{% endif %}
+					</div>
+					<!-- <hr class="post"> -->
+					<p class="content">{{ post.content|linebreaksbr|urlize|safe }}</p>
+					{% if post.Post_image %}
+						<div class="post-image"><img class="post-image" src="{{ post.Post_image.url }}"></div>
+					{% endif %}<hr>
+					<!-- ...... -->
+					<div class="likes">
+						{% if post.total_likes == 1 or post.total_likes == 0 %}
+							<label>{{ post.total_likes }} Like</label>&nbsp;&nbsp;&nbsp;<label>{{ post.num_comments }} Comments</label>
+						{% else %}
+							<label>{{ post.total_likes }} Likes</label>&nbsp;&nbsp;&nbsp;<label>{{ post.num_comments }} Comments</label>
+						{% endif %}
+					</div><hr>
+					<!-- .......... -->
+					<div class="comment">
+						<div class="like">
+							<form class="like" action="{% url 'like-post' post.id %}?next={{ request.path }}#current-post-{{ post.pk }}" method="POST">
+								{% csrf_token %}
+								{% if user.is_authenticated %}
+									{% if user in post.likes.all %}
+										<button type="submit" style="background-color: rgba(23, 80, 164, .43) !important; border-radius: 10px; padding: 5px 7px 3px 7px;"><img src="{% static 'main/like.png' %}">&nbsp;<label>Unlike</label></button>
+									{% else %}
+										<button type="submit"><img src="{% static 'main/like.png' %}">&nbsp;<label>Like</label></button>
+									{% endif %}
+								{% endif %}
+							</form>
+						</div>
+						<div><a class="comment" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}"><img src="{% static 'main/comment.png' %}">&nbsp;<label>Comment</label></a></div>
+						<div class="share" id="copy_link" onclick='copy("http://cscui23.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
+							<img src="{% static 'main/share.png' %}">&nbsp;<label><input type="text" value="" id="urlCopy" style="display: none;">Copy</label><span class="urlAlert" id="urlAlert-{{ post.pk }}">Link copied!</span>
+						</div>
+					</div>
+					<div class="comment-dark">
+						<div class="like">
+							<form class="like" action="{% url 'like-post' post.id %}?next={{ request.path }}#current-post-{{ post.pk }}" method="POST">
+								{% csrf_token %}
+								{% if user.is_authenticated %}
+									{% if user in post.likes.all %}
+										<button type="submit" style="background-color: rgba(23, 80, 164, .43) !important; border-radius: 10px; padding: 5px 7px 3px 7px;"><img src="{% static 'main/like-light.png' %}">&nbsp;<label>Unlike</label></button>
+									{% else %}
+										<button type="submit"><img src="{% static 'main/like-light.png' %}">&nbsp;<label>Like</label></button>
+									{% endif %}
+								{% endif %}
+							</form>
+						</div>
+						<div><a class="comment" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}"><img src="{% static 'main/comment-light.png' %}">&nbsp;<label>Comment</label></a></div>
+						<div class="share" id="copy_link" onclick='copy("https://cscui23.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
+							<img src="{% static 'main/share-light.png' %}">&nbsp;<label><input type="text" value="" id="urlCopy" style="display: none;">Copy</label><span class="urlAlert1" id="urlAlert1-{{ post.pk }}">Link copied!</span>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+			<label style="text-align: center; width: 100%"><i class="fa fa-circle"></i></label>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var message = document.getElementById('message');
+		var alert = document.getElementById('alert');
+		var topProfile = document.getElementById('top-profile');
+		var allPosts = document.getElementById('allPosts');
+		var menu = document.getElementById('menu');
+		function drop(pk) {
+			var obj = document.getElementById('post-'+pk);
+			if (obj.style.display === 'none') {
+				obj.style.display = 'flex';
+			} else {
+					obj.style.display = 'none';
+			}
+		}
+
+		topProfile.addEventListener('click', () => {
+			menu.classList.toggle('active')
+			allPosts.classList.toggle('active')
+			add.classList.toggle('active')
+		});
+		message.addEventListener('click', () => {
+			alert.classList.add('hide')
+		});
+
+	</script>
+	{% endblock content%}
+

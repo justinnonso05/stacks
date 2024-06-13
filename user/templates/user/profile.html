@@ -1,0 +1,254 @@
+{% extends "main/base.html" %}
+{% load static %}
+	{% block content %}
+	<style type="text/css">
+    	p.weblink {
+			width: 100%;
+			word-wrap: break-word;
+			word-break: break-all;
+			padding-right: 5px;
+		}
+		div.profile-name div.name a {
+			float: right;
+			margin-right: 5px;
+			padding: 4px 6px;
+			border-radius: 7px;
+			background-color: rgb(23, 80, 164);
+			color: white;
+			text-decoration: none;
+			font-weight: 600;
+			font-family: 'poppins';
+			font-size: 15px;
+		}
+		div.bio, div.bio-edit, div.name {
+			margin-top: -10px;
+		}
+		div.name {
+			font-weight: 900;
+			font-family: 'poppins';
+			font-size: 25px;
+		}
+		/*@media only screen and (max-width: 350px) {*/
+		/*	div.name {*/
+		/*		margin-top: 0px;*/
+		/*	}*/
+		/*}*/
+		div.name span:hover {
+			background: none !important;
+			box-shadow: none !important;
+		}
+		@media only screen and (max-width: 350px) {
+			div.name {
+				font-size: 20px;
+			}
+		}
+		@media only screen and (max-width: 250px) {
+			div.name {
+				font-size: 15px;
+			}
+		}
+		div.share label {
+			cursor: pointer;
+		}
+    	#copy_link:hover {
+    	  	cursor: pointer;
+    	}
+		div.likes {
+			margin-top: -10px;
+		}
+		form.like button {
+			background-color: transparent;
+			border: none;
+			cursor: pointer;
+			outline: none;
+		}
+		p.bio-edit a {
+			background: transparent;
+			color: rgb(23, 80, 164);
+			font-size: 15px;
+			padding: 0px;
+		}
+		a.p_link {
+			color: rgb(23, 80, 164);
+		}
+		img.verified {
+			width: 19px;
+			height: auto;
+			margin-left: 4px;
+		}
+		div.posts {
+			display: flex;
+			flex-direction: column;
+/*			margin-top: 12px;*/
+			border-radius: 3px;
+/*			background-color: white;*/
+			box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.05);
+			padding: 10px;
+			word-wrap: break-word;
+		}
+
+		div.post-image {
+			width: 100%;
+			display: grid;
+			margin-bottom: 10px;
+			box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, .2);
+			grid-template-columns: repeat(1, 1fr);
+			align-items: center;
+			text-align: center;
+			justify-content: center;
+			justify-items: center;
+		}
+		div.profile-posts {
+			padding: 0px 8px;
+		}
+		div.profile-posts h4 {
+			font-size: 20px;
+			font-weight: 700;
+			margin: 15px 0px;
+		}
+		div.post-image img {
+			max-width: 100%;
+		}
+		@media only screen and (max-width: 800px) {
+			div.content {
+				grid-template-columns: repeat(1, 1fr);
+			}
+			div.menu.active {
+				display: block;
+			}
+			div.menu {
+				display: none;
+				position: static;
+/*				width: 100px;*/
+			}
+			#allPosts.active {
+				display: none;
+			}
+			div.profile-container {
+				padding: 0px 0px;
+				scrollbar-width: none;
+			}
+		}
+	</style>
+	<div class="profile-container" id="allPosts">
+		<div class="profile-content">
+			<div class="profile-cover">
+				{% if profile.Profile_picture %}
+				<a href="{{ profile.Profile_picture.url }}" target="_blank"><img class="profile-image" src="{{ profile.Profile_picture.url }}"></a>
+				{% else %}
+				<a href=""><img class="profile-image" src="{% static 'main/default.jpg' %}"></a>
+				{% endif %}
+			</div>
+			<div class="profile-info">
+				<div class="profile-name">
+    				<div class="name">
+						{{ profile.full_name}}{% if profile.verified %}<img class="verified" src="{% static 'main/verified.png' %}">{% endif %}
+						{% if request.user == profile.user %}
+						<a href="{% url 'edit-profile' username=request.user.username %}">Edit</a>
+						{% else %}
+						<a href="">Like</a>
+						{% endif %}
+					</div><br>
+					{% if profile.bio != "" %}
+					<div class="bio">{{ profile.bio }}</div>
+					{% else %}
+					{% if request.user.is_authenticated and request.user == profile.user %}<div class="bio-edit"><a href="{% url 'edit-profile' username=request.user.username %}">Add Bio</a></div>{% endif %}
+					{% endif %}
+    			</div><hr>
+				<div class="bio">30 profile likes</div>
+				<div class="sub-profile-info">
+					<!-- <p class="conections">500 connections</p> -->
+					{% if profile.current_city != None %}
+					<p class="location"><i class="fa fa-map-marker"></i>{{ profile.current_city }}</p>
+					{% else %}
+					{% if request.user.is_authenticated and request.user == profile.user %}<p class="location"><i class="fa fa-map-marker"></i><a style="color: rgb(23, 80, 164);" href="{% url 'edit-profile' username=request.user.username %}">Add Location</a></p>{% endif %}
+					{% endif %}
+					{% if profile.tech_stack != None %}
+					<p class="tech-stack"><i class="fa fa-code"></i>{{ profile.tech_stack }}</p>
+					{% else %}
+					{% if request.user.is_authenticated and request.user == profile.user %}<p class="tech-stack"><i class="fa fa-code"></i><a style="color: rgb(23, 80, 164);" href="{% url 'edit-profile' username=request.user.username %}">Add Tech Stack</a></p>{% endif %}
+					{% endif %}
+					{% if profile.Website_or_Portfolio_link != None %}
+					<p class="weblink"><i class="fa fa-link"></i><a href="{{ profile.Website_or_Portfolio_link }}" target="_blank">{{ profile.Website_or_Portfolio_link }}</a></p><hr>
+					{% else %}
+					{% if request.user.is_authenticated and request.user == profile.user %}<p class="weblink"><i class="fa fa-link"></i><a style="color: rgb(23, 80, 164);" href="{% url 'edit-profile' username=request.user.username %}">Add Portfolio or social link</a></p>{% endif %}
+					{% endif %}
+				</div>
+			</div>
+			<div class="profile-posts">
+				<h4>Posts</h4>
+				{% for post in posts %}
+					<div class="posts" id="current-post-{{ post.pk }}">
+						<div class="author">
+							{% if post.author.Profile_picture %}
+								<a href="{% url 'user-profile' post.author.user.username %}"><img src="{{ post.author.Profile_picture.url }}"></a><h2 class="author"><a class="post-author" href="{% url 'user-profile' post.author.user.username %}">{{ post.author.full_name }}{% if post.author.verified %}<img class="verified" src="{% static 'main/verified.png' %}">{% endif %}</a><br><span class="date">{{ post.date_posted }}</h2>
+							{% else %}
+								<a href="{% url 'user-profile' post.author.user.username %}"><img src="{% static 'main/default.jpg' %}"></a><h2 class="author"><a class="post-author" href="{% url 'user-profile' post.author.user.username %}">{{ post.author.full_name }}{% if post.author.verified %}<img class="verified" src="{% static 'main/verified.png' %}">{% endif %}</a><br><span class="date">{{ post.date_posted }}</h2>
+							{% endif %}
+						</div>
+						<!-- <hr class="post"> -->
+						<p class="content">{{ post.content|linebreaksbr|urlize|safe }}</p>
+						{% if post.Post_image %}
+							<div class="post-image"><img class="post-image" src="{{ post.Post_image.url }}"></div>
+						{% endif %}<hr>
+						<div class="likes">
+							{% if post.total_likes == 1 or post.total_likes == 0 %}
+								<label>{{ post.total_likes }} Like</label>&nbsp;.&nbsp;<label>{{ post.num_comments }} Comments</label>
+						    {% else %}
+							    <label>{{ post.total_likes }} Likes</label>&nbsp;.&nbsp;<label>{{ post.num_comments }} Comments</label>
+							{% endif %}
+						</div><hr>
+						<div class="comment">
+							<div class="like">
+								<form class="like" action="{% url 'like-post' post.id %}?next={{ request.path }}#current-post-{{ post.pk }}" method="POST">
+									{% csrf_token %}
+									{% if user.is_authenticated %}
+										{% if user in post.likes.all %}
+											<button type="submit" style="background-color: rgba(23, 80, 164, .43) !important; border-radius: 10px; padding: 5px 7px 3px 7px;"><img src="{% static 'main/like.png' %}">&nbsp;<label>Unlike</label></button>
+										{% else %}
+											<button type="submit"><img src="{% static 'main/like.png' %}">&nbsp;<label>Like</label></button>
+										{% endif %}
+									{% endif %}
+								</form>
+							</div>
+							<div><a class="comment" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}"><img src="{% static 'main/comment.png' %}">&nbsp;<label>Comment</label></a></div>
+							<div class="share" id="copy_link" onclick='copy("http://cscui23.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
+							<img src="{% static 'main/share.png' %}">&nbsp;<label><input type="text" value="" id="urlCopy" style="display: none;">Copy</label><span class="urlAlert" id="urlAlert-{{ post.pk }}">Link copied!</span>
+						</div>
+						</div>
+						<div class="comment-dark">
+							<div class="like">
+								<form class="like" action="{% url 'like-post' post.id %}?next={{ request.path }}#current-post-{{ post.pk }}" method="POST">
+									{% csrf_token %}
+									{% if user.is_authenticated %}
+										{% if user in post.likes.all %}
+											<button type="submit" style="background-color: rgba(23, 80, 164, .43) !important; border-radius: 10px; padding: 5px 7px 3px 7px;"><img src="{% static 'main/like-light.png' %}">&nbsp;<label>Unlike</label></button>
+										{% else %}
+											<button type="submit"><img src="{% static 'main/like-light.png' %}">&nbsp;<label>Like</label></button>
+										{% endif %}
+									{% endif %}
+								</form>
+							</div>
+							<div><a class="comment" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}"><img src="{% static 'main/comment-light.png' %}">&nbsp;<label>Comment</label></a></div>
+							<div class="share" id="copy_link" onclick='copy("http://cscui23.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
+							<img src="{% static 'main/share-light.png' %}">&nbsp;<label><input type="text" value="" id="urlCopy" style="display: none;">Copy</label><span class="urlAlert1" id="urlAlert1-{{ post.pk }}">Link copied!</span>
+						</div>
+						</div>
+					</div>
+				{% empty %}
+					<p>No Posts to see</p>
+				{% endfor %}
+			</div>
+		</div>
+		<script type="text/javascript">
+			var topProfile = document.getElementById('top-profile');
+			var allPosts = document.getElementById('allPosts');
+			var menu = document.getElementById('menu');
+
+			topProfile.addEventListener('click', () => {
+				menu.classList.toggle('active')
+				allPosts.classList.toggle('active')
+			});
+		</script>
+	</div>
+	{% endblock content%}
