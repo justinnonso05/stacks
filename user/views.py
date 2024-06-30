@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -105,6 +105,13 @@ class DetailProfileView(LoginRequiredMixin, DetailView):
 	model = Profile
 	template_name = 'user/profile.html'
 	context_object_name = 'profile'
+	profiles = Profile.objects.get(user__username = 'justondev')
+	bio = profiles.bio
+	print(Profile.objects.all())
+	if bio == "":
+		print("bio is null")
+	else:
+		print(bio)
 
 	def get_object(self, queryset = None):
 		username = self.kwargs.get('username')
@@ -119,4 +126,12 @@ class DetailProfileView(LoginRequiredMixin, DetailView):
 		context['title'] = 'Profile'
 		return context
 
+@login_required
+def like_profile(request, profile_id):
+	profile = get_object_or_404(Profile, id=profile_id)
+	if profile.likes.filter(id=request.user.id).exists():
+		profile.likes.remove(request.user)
+	else:
+		profile.likes.add(request.user)
 
+	return redirect(request.META.get('HTTP_REFERER', 'redirect_if_refer_not_found'))

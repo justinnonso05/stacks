@@ -2,6 +2,15 @@
 {% load static %}
 	{% block content %}
 	<style type="text/css">
+		#proflike {
+			background-color: rgb(23, 80, 164) !important;
+			color: white;
+			font-size: 15px;
+			border-radius: 5px;
+		}
+		div.name a {
+			padding: 6px 18px !important;
+		}
     	p.weblink {
 			width: 100%;
 			word-wrap: break-word;
@@ -129,6 +138,7 @@
 				scrollbar-width: none;
 			}
 		}
+		
 	</style>
 	<div class="profile-container" id="allPosts">
 		<div class="profile-content">
@@ -146,18 +156,31 @@
 						{% if request.user == profile.user %}
 						<a href="{% url 'edit-profile' username=request.user.username %}">Edit</a>
 						{% else %}
-						<a href="">Like</a>
+						<div class="like">
+							<form class="like" action="{% url 'like-profile' profile.id %}?next={{ request.path }}" method="POST">
+								{% csrf_token %}
+								{% if user.is_authenticated %}
+									{% if user in profile.likes.all %}
+										<button id="proflike" type="submit">Unlike Profile</button>
+									{% else %}
+										<button id="proflike" type="submit">Like Profile</button>
+									{% endif %}
+								{% endif %}
+							</form>
+						</div>
 						{% endif %}
 					</div><br>
-					{% if profile.bio != "" %}
-					<div class="bio">{{ profile.bio }}</div>
+					{% if profile.bio == "" and request.user == profile.user %}
+						<div class="bio-edit"><a href="{% url 'edit-profile' username=request.user.username %}">Add Bio</a></div>
+					{% endif %}
+					{% if profile.bio == "none" %}
+						<div class="bio-edit">Hey there, I'm using Stacks</div>
 					{% else %}
-					{% if request.user.is_authenticated and request.user == profile.user %}<div class="bio-edit"><a href="{% url 'edit-profile' username=request.user.username %}">Add Bio</a></div>{% endif %}
+						<div class="bio">{{ profile.bio }}</div>
 					{% endif %}
     			</div><hr>
-				<div class="bio">30 profile likes</div>
+				<div class="bio">{{ profile.total_likes }} Profile Likes</div>
 				<div class="sub-profile-info">
-					<!-- <p class="conections">500 connections</p> -->
 					{% if profile.current_city != None %}
 					<p class="location"><i class="fa fa-map-marker"></i>{{ profile.current_city }}</p>
 					{% else %}

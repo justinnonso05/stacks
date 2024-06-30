@@ -6,6 +6,7 @@ from .views import HomeView, CreatePostView, PostDetailView, MessageView, Search
 
 urlpatterns = [
     path('', HomeView.as_view(), name = 'home'),
+    path('welcome/', views.landing, name = 'welcome'),
     path('new-post/', CreatePostView.as_view(), name = 'create-post'),
     path('posts/<int:pk>/<str:username>/', PostDetailView.as_view(), name = 'post-detail'),
     path('posts/edit/<int:pk>/', UpdatePostView.as_view(), name = 'edit-post'),

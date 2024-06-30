@@ -26,6 +26,10 @@ class Profile(models.Model):
 	current_city = models.CharField(max_length = 100, default = "", blank = True, null = True)
 	# social_link = models.URLField(default = "", blank = True, null = True)
 	Website_or_Portfolio_link = models.URLField(default = "", blank = True, null = True)
+	likes = models.ManyToManyField(User, related_name='liked_profile', blank=True)
+
+	def total_likes(self):
+		return self.likes.count()
 
 
 	def __str__(self):

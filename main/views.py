@@ -12,6 +12,8 @@ from django.db.models import Q, Count
 from django.contrib.auth.decorators import login_required
 
 
+def landing(request):
+	return render(request, 'main/landing.html')
 
 class HomeView(LoginRequiredMixin, ListView):
 	model = Post

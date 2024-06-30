@@ -1,0 +1,214 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stacks - Developer Community</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'poppins', 'Arial', sans-serif;
+            background-color: #181b20;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+        div.menu {
+          position: relative;
+          right: 20px;
+        }
+        .header {
+            width: 100%;
+            padding: 10px 20px;
+            background-color: #1c1f27;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 10;
+        }
+        .header a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .header a.signup {
+            padding: 5px 10px;
+            background-color: rgb(23, 80, 164);
+            border-radius: 5px;
+        }
+        .main-title {
+            font-size: 2.5em;
+            margin: 100px 0 20px 0;
+        }
+        .sub-title {
+            font-size: 1.2em;
+            margin: 20px 0;
+        }
+        .button {
+            margin: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgb(23, 80, 164);
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .button:hover {
+            background-color: rgba(13, 74, 165, 0.808);
+        }
+        button a {
+            color: white;
+            text-decoration: none;
+        }
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .feature {
+            background-color: rgba(53, 103, 178, 0.082);
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            width: 250px;
+            text-align: left;
+        }
+        .feature img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+        }
+        div.menu-icon {
+          position: relative;
+          right: 30px;
+        }
+        .menu-icon div {
+            width: 25px;
+            height: 3px;
+            background-color: #ffffff;
+            margin: 4px 0;
+            transition: all 0.3s ease;
+        }
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            background-color: #1a1a1a;
+            position: fixed;
+            top: 50px;
+            width: 100%;
+            padding: 10px 0;
+            transition: max-height 0.8s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .mobile-menu.show {
+            display: flex;
+            max-height: 300px;
+        }
+        .mobile-menu a {
+            padding: 10px 20px;
+            width: 100%;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+        .mobile-menu a:hover {
+            background-color: #333333;
+        }
+        @media (max-width: 780px) {
+            .menu {
+                display: none;
+            }
+            .menu-icon {
+                display: flex;
+            }
+        }
+        .bar1.change {
+            transform: rotate(-45deg) translate(-9px, 6px);
+        }
+        .bar2.change {
+            opacity: 0;
+        }
+        .bar3.change {
+            transform: rotate(45deg) translate(-9px, -6px);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="#">Stacks</a>
+        </div>
+        <div class="menu">
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}" class="signup">Sign Up</a>
+        </div>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'signup' %}" class="signup">Sign Up</a>
+    </div>
+    <div class="container">
+        <h1 class="main-title">Join the Ultimate Developer Community</h1>
+        <p class="sub-title">Everything you need to connect, collaborate, and grow as a developer</p>
+        <button class="button"><a href="{% url 'signup' %}">Get Started</a></button>
+        <div class="features">
+            <div class="feature">
+                <img src="{% static 'main/management.webp' %}" height="250px" alt="Project Management">
+                <h3>Project Management</h3>
+                <p>Organize and manage your development projects with ease.</p>
+            </div>
+            <div class="feature">
+                <img src="{% static 'main/collab.jpg' %}" height="250px" alt="Collaboration">
+                <h3>Collaboration Tools</h3>
+                <p>Collaborate with other developers on exciting projects.</p>
+            </div>
+            <div class="feature">
+                <img src="{% static 'main/learning.webp' %}" height="250px" alt="Learning Resources">
+                <h3>Learning Resources</h3>
+                <p>Access a wide range of resources to improve your skills.</p>
+            </div>
+            <div class="feature">
+                <img src="{% static 'main/network.jpg' %}" height="250px" alt="Networking">
+                <h3>Networking</h3>
+                <p>Connect with like-minded developers and expand your network.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const bars = document.querySelectorAll('.menu-icon div');
+            mobileMenu.classList.toggle('show');
+            bars.forEach(bar => bar.classList.toggle('change'));
+        }
+    </script>
+</body>
+</html>
