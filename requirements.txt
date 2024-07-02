@@ -19,8 +19,6 @@ idna==3.7
 packaging==24.0
 pefile==2023.2.7
 Pillow==9.5.0
-pypiwin32
-pywin32
 pywin32-ctypes==0.2.2
 requests==2.32.3
 setuptools==70.0.0
