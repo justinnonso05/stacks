@@ -14,7 +14,7 @@ urlpatterns = [
     path('app/messages/', MessageView.as_view(), name = 'message'),
     path('app/search/', SearchResultView.as_view(), name = 'search'),
     path('app/level_materials/', views.materials, name = 'materials'),
-    path('app/calendar/', views.calendar, name = 'calendar'),
+    path('app/groups/', views.groups, name = 'groups'),
     path('announcements/', views.announcement, name = 'announcement'),
     path('like/<int:post_id>/', views.like_post, name = 'like-post'),
 ]

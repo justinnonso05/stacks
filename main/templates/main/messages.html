@@ -27,6 +27,7 @@
             box-shadow: 0px 0px 1px 1px rgba(0,0,0,0.4);
             border-radius: 3px;
             background-color: transparent;
+            text-align: center;
         }
         div.profile-posts {
             padding: 0px 8px;
@@ -61,15 +62,9 @@
 
     <div class="home" id="allPosts">
         <div class="posts-container">
-            <h2 class="feed">Photos</h2>
+            <h2 class="feed">Messages</h2>
             <div class="photo-grid">
-            {% for post in posts %}
-                {% if post.Post_image %}
-                    <div class="image-grid">
-                        <a class="photo" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}" target="_blank"><img class="post-image" src="{{ post.Post_image.url }}" alt="Post image"></a>
-                    </div>
-                {% endif %}
-            {% endfor %}
+               Coming Soon! Check back later
             </div>
         </div>
     </div>
@@ -94,25 +89,6 @@
 
 
 
-
-
-
-<!-- 
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            grid-gap: 10px;
-            justify-items: center;
-            background-color: white;
-            box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, .08);
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            padding-bottom: 30px;
-        }
-
-
- -->
 
 
 

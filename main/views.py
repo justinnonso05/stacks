@@ -129,8 +129,8 @@ class SearchResultView(LoginRequiredMixin, ListView):
 def materials(request):
 	return render(request, 'main/materials.html', {'title': 'Level Materials'})
 
-def calendar(request):
-	return render(request, 'main/calendar.html', {'title': 'Academic Calendar'})
+def groups(request):
+	return render(request, 'main/groups.html', {'title': 'Academic Calendar'})
 
 
 class UpdatePostView(UserPassesTestMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView):

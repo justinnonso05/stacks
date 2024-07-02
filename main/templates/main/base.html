@@ -51,7 +51,7 @@
 				</div>
 			{% else %}
 				<div class="nav-no-logged">
-					<a class="login" href="#">Go back</a>
+					<a class="login" href="{% url 'welcome' %}">Go back</a>
 			{% endif %}
 			</div>
 		</nav>
@@ -80,9 +80,9 @@
             </div>
 			<div class="menu-items">
 				<a class="desk-item" href="{% url 'home' %}"><i class="fa fa-home"></i>Home</a><hr class="desk-hr">
-				<a class="desk-item" href="{% url 'calendar' %}"><i class="fa fa-users"></i>Groups</a><hr class="desk-hr">
+				<a class="desk-item" href="{% url 'groups' %}"><i class="fa fa-users"></i>Groups</a><hr class="desk-hr">
 				<a class="desk-item" href="{% url 'message' %}"><i class="fa fa-envelope"></i>Messages</a><hr class="desk-hr">
-				<a class="desk-item" href="{% url 'materials' %}"><i class="fa fa-book"></i>Materials</a><hr class="desk-hr">
+				<!-- <a class="desk-item" href="{% url 'materials' %}"><i class="fa fa-book"></i>Materials</a><hr class="desk-hr"> -->
 				<a class="desk-item" href="{% url 'password_reset' %}">Reset Password</a><hr class="desk-hr">
 				<a href="{% url 'announcement' %}" class="mob-item">Announcements</a><hr class="mob-hr">
 				<a href="{% url 'password_reset' %}" class="mob-item">Reset Password</a><hr class="mob-hr">
@@ -103,19 +103,29 @@
 		</div>
 
 		{% block content %}{% endblock %}
+		<style>
+			div.right-side h2 {
+				font-size: 16px;
+				font-weight: 600;
+			}
+		</style>
 		<div class="right-side" id="right-side">
 			<div class="discover">
-			 	<h4>Announcements</h4>
-			 	<p><i class="fa fa-circle"></i>&nbsp;Start Reading</p>
+			 	<h4>Notifications</h4>
+			 	<p>3 new notifications</p>
 			</div>
 			<div class="discover">
-			 	<h4>Upcoming Events</h4>
-			 	<p><i class="fa fa-circle"></i>&nbsp;200 Level Resumption</p>
+			 	<h2>Welcome to Stacks</h2>
+			 	<p><i class="fa fa-circle"></i>&nbsp;Welcome to the no 1 developer community</p>
 			</div>
 			<div class="discover">
-			 	<h4>Important Notice</h4>
-			 	<p><i class="fa fa-circle"></i>&nbsp;The site shall be open to everyone for the first few hours after launch to get reviews and feedback from the general public.</p><br><p>Kindly note that the accounts for all non NACOSites UI 2023 session shall be revoked after the stipulated time</p>
+			 	<h2>Messages</h2>
+			 	<p><i class="fa fa-circle"></i>&nbsp;Direct messaging is in development</p>
 			</div>
+			<div class="discover">
+				<h2>Groups</h2>
+				<p><i class="fa fa-circle"></i>&nbsp;Groups is in development</p>
+		   </div>
 		 	<div class="copywright">
 				<div>&copy; 2024</div>
 			</div>
@@ -123,9 +133,9 @@
 	</div>
 	<div class="bottom-nav">
 		<a href="{% url 'home' %}"><i class="fa fa-home"></i></a>
-		<a href="{% url 'calendar' %}"><i class="fa fa-users"></i></a>
+		<a href="{% url 'groups' %}"><i class="fa fa-users"></i></a>
 		<a href="{% url 'create-post' %}"><i class="fa fa-plus"></i></a>
-		<a href="{% url 'materials' %}"><i class="fa fa-book"></i></a>
+		<a href="{% url 'materials' %}"><i class="fa fa-bell"></i></a>
 		<a href="{% url 'message' %}"><i class="fa fa-envelope"></i></a>
 	</div>
 

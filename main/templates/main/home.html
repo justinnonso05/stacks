@@ -2,6 +2,7 @@
 {% load static %}
 	{% block content %}
 	<style type="text/css">
+
 		div.add-new a.input {
 			background-color: transparent;
 			text-decoration: none;
@@ -36,7 +37,15 @@
 		div.featured-wrapper::-webkit-scrollbar {
 			display: none !important; 
 		}
-		
+		h2.featured span {
+			font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+			padding: 2px 10px;
+			font-size: 15px;
+			border-radius: 50%;
+			background-color: rgba(0, 0, 0, 0.827);
+			color: white;
+			cursor: pointer;
+		}
 		div.featured-image {
 			/* display: grid;
 			align-items: end; */
@@ -341,7 +350,7 @@
 		</div>
 		<div class="posts-container">
 			<div class="featured-container">
-				<h2 class="featured">Featured Posts</h2>
+				<h2 class="featured">Featured Posts <span onclick="help()">i</span></h2>
 				<div class="featured-wrapper">
 					{% for post in posts %}
 						{% if post.Post_image %}
@@ -388,7 +397,7 @@
 							</form>
 						</div>
 						<div><a class="comment" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}"><img src="{% static 'main/comment.png' %}">&nbsp;<label>Comment</label></a></div>
-						<div class="share" id="copy_link" onclick='copy("http://localhost:8000/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
+						<div class="share" id="copy_link" onclick='copy("https://stacks.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
 							<img src="{% static 'main/share.png' %}">&nbsp;<label><input type="text" value="" id="urlCopy" style="display: none;">Copy</label><span class="urlAlert" id="urlAlert-{{ post.pk }}">Link copied!</span>
 						</div>
 					</div>
@@ -406,7 +415,7 @@
 							</form>
 						</div>
 						<div><a class="comment" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}"><img src="{% static 'main/comment-light.png' %}">&nbsp;<label>Comment</label></a></div>
-						<div class="share" id="copy_link" onclick='copy("https://cscui23.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
+						<div class="share" id="copy_link" onclick='copy("https://stacks.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
 							<img src="{% static 'main/share-light.png' %}">&nbsp;<label><input type="text" value="" id="urlCopy" style="display: none;">Copy</label><span class="urlAlert1" id="urlAlert1-{{ post.pk }}">Link copied!</span>
 						</div>
 					</div>
@@ -417,7 +426,7 @@
 	</div>
 	<script type="text/javascript">
 		var message = document.getElementById('message');
-		var alert = document.getElementById('alert');
+		var alert1 = document.getElementById('alert');
 		var topProfile = document.getElementById('top-profile');
 		var allPosts = document.getElementById('allPosts');
 		var menu = document.getElementById('menu');
@@ -436,9 +445,11 @@
 			add.classList.toggle('active')
 		});
 		message.addEventListener('click', () => {
-			alert.classList.add('hide')
+			alert1.classList.add('hide')
 		});
-
+		function help() {
+			alert("Featured posts are posts with images with high impression and activities")
+		}
 	</script>
 	{% endblock content%}
 
