@@ -188,4 +188,4 @@ def like_post(request, post_id):
 	return redirect(request.META.get('HTTP_REFERER', 'redirect_if_refer_not_found'))
 
 
-# wow
+# test
