@@ -28,7 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = ["https://51de-105-113-60-134.ngrok-free.app"]
+CSRF_TRUSTED_ORIGINS = ["https://stacks-hq3r.onrender.com"]
 
 # Application definition
 # postgres://justin:vaXGb1ywocnoikKex1UJKwIMjL7zKzJ1@dpg-cpl3oeg21fec7385chq0-a.oregon-postgres.render.com/stacks_g7ix
