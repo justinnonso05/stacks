@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def landing(request):
-	return render(request, 'main/landing.html')
+	return render(request, 'main/Landing.html')
 
 class HomeView(LoginRequiredMixin, ListView):
 	model = Post

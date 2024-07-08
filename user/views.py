@@ -107,11 +107,6 @@ class DetailProfileView(LoginRequiredMixin, DetailView):
 	context_object_name = 'profile'
 	profiles = Profile.objects.get(user__username = 'justondev')
 	bio = profiles.bio
-	print(Profile.objects.all())
-	if bio == "":
-		print("bio is null")
-	else:
-		print(bio)
 
 	def get_object(self, queryset = None):
 		username = self.kwargs.get('username')
