@@ -35,7 +35,7 @@
 			border-radius: 3px;
 		}
 		div.featured-wrapper::-webkit-scrollbar {
-			display: none !important; 
+			display: none !important;
 		}
 		h2.featured span {
 			font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -78,7 +78,7 @@
 		h2.featured {
 			font-size: 23px;
 		}
-		
+
 		@media only screen and (max-width: 800px) {
 			div.posts-container::-webkit-scrollbar  {
 				display: none !important;
@@ -270,7 +270,7 @@
 			div.post-button {
 				display: flex;
 			}
-			
+
 			p.content {
 				padding-left: 10px;
 			}
@@ -364,9 +364,9 @@
 				<div class="posts" id="current-post-{{ post.pk }}">
 					<div class="author">
 						{% if post.author.Profile_picture %}
-							<a href="{% url 'user-profile' post.author.user.username %}"><img src="{{ post.author.Profile_picture.url }}"></a><div class="posthead"><h2 class="author"><a class="post-author" href="{% url 'user-profile' post.author.user.username %}">{{ post.author.full_name }}{% if post.author.verified %}<img class="verified" src="{% static 'main/verified.png' %}">{% endif %}</a><br><span class="date">{{ post.date_posted }}</h2><span><i onclick="drop('{{ post.pk }}')" class="fa fa-ellipsis-v"></i></span><div class="postmenu" id="post-{{ post.pk }}">{% if post.author == request.user.profile %}<span><a href="{% url 'delete-post' post.pk %}">Delete post</a></span><span><a href="{% url 'edit-post' post.pk %}">Edit post</a></span>{% endif %}<span><a class="view" href="https://api.whatsapp.com/send?text=https://stacks-hq3r.onrender.com/posts/{{ post.pk }}/{{ post.author.user.username }}" target="_blank">Share <i class="fab fa-whatsapp"></i></a></span></div></div>
+							<a href="{% url 'user-profile' post.author.user.username %}"><img src="{{ post.author.Profile_picture.url }}"></a><div class="posthead"><h2 class="author"><a class="post-author" href="{% url 'user-profile' post.author.user.username %}">{{ post.author.full_name }}{% if post.author.verified %}<img class="verified" src="{% static 'main/verified.png' %}">{% endif %}</a><br><span class="date">{{ post.date_posted }}</h2><span><i onclick="drop('{{ post.pk }}')" class="fa fa-ellipsis-v"></i></span><div class="postmenu" id="post-{{ post.pk }}">{% if post.author == request.user.profile %}<span><a href="{% url 'delete-post' post.pk %}">Delete post</a></span><span><a href="{% url 'edit-post' post.pk %}">Edit post</a></span>{% endif %}<span><a class="view" href="https://api.whatsapp.com/send?text=https://stacks.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}" target="_blank">Share <i class="fab fa-whatsapp"></i></a></span></div></div>
 						{% else %}
-							<a href="{% url 'user-profile' post.author.user.username %}"><img src="{% static 'main/default.jpg' %}"></a><div class="posthead"><h2 class="author"><a class="post-author" href="{% url 'user-profile' post.author.user.username %}">{{ post.author.full_name }}{% if post.author.verified %}<img class="verified" src="{% static 'main/verified.png' %}">{% endif %}</a><br><span class="date">{{ post.date_posted }}</h2><span><i onclick="drop('{{ post.pk }}')" class="fa fa-ellipsis-v"></i></span><div class="postmenu" id="post-{{ post.pk }}">{% if post.author == request.user.profile %}<span><a href="{% url 'delete-post' post.pk %}">Delete post</a></span><a href="{% url 'edit-post' post.pk %}"><span>Edit post</span></a>{% endif %}<span><a class="view" href="https://api.whatsapp.com/send?text=https://stacks-hq3r.onrender.com/posts/{{ post.pk }}/{{ post.author.user.username }}" target="_blank">Share <i class="fab fa-whatsapp"></i></a></span></div></div>
+							<a href="{% url 'user-profile' post.author.user.username %}"><img src="{% static 'main/default.jpg' %}"></a><div class="posthead"><h2 class="author"><a class="post-author" href="{% url 'user-profile' post.author.user.username %}">{{ post.author.full_name }}{% if post.author.verified %}<img class="verified" src="{% static 'main/verified.png' %}">{% endif %}</a><br><span class="date">{{ post.date_posted }}</h2><span><i onclick="drop('{{ post.pk }}')" class="fa fa-ellipsis-v"></i></span><div class="postmenu" id="post-{{ post.pk }}">{% if post.author == request.user.profile %}<span><a href="{% url 'delete-post' post.pk %}">Delete post</a></span><a href="{% url 'edit-post' post.pk %}"><span>Edit post</span></a>{% endif %}<span><a class="view" href="https://api.whatsapp.com/send?text=https://stacks.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}" target="_blank">Share <i class="fab fa-whatsapp"></i></a></span></div></div>
 						{% endif %}
 					</div>
 					<!-- <hr class="post"> -->
@@ -377,9 +377,9 @@
 					<!-- ...... -->
 					<div class="likes">
 						{% if post.total_likes == 1 or post.total_likes == 0 %}
-							<label>{{ post.total_likes }} Like</label>&nbsp;&nbsp;&nbsp;<label>{{ post.num_comments }} Comments</label>
+							<label><a href="{% url 'liked-post' post_id=post.id %}">{{ post.total_likes }} Like</a></label>&nbsp;&nbsp;&nbsp;<label><a href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}">{{ post.num_comments }} Comments</a></label>
 						{% else %}
-							<label>{{ post.total_likes }} Likes</label>&nbsp;&nbsp;&nbsp;<label>{{ post.num_comments }} Comments</label>
+							<label><a href="{% url 'liked-post' post_id=post.id %}">{{ post.total_likes }} Likes</a></label>&nbsp;&nbsp;&nbsp;<label><a class="comment1" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}">{{ post.num_comments }} Comments</a></label>
 						{% endif %}
 					</div><hr>
 					<!-- .......... -->
@@ -397,7 +397,7 @@
 							</form>
 						</div>
 						<div><a class="comment" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}"><img src="{% static 'main/comment.png' %}">&nbsp;<label>Comment</label></a></div>
-						<div class="share" id="copy_link" onclick='copy("https://stacks-hq3r.onrender.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
+						<div class="share" id="copy_link" onclick='copy("https://stacks.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
 							<img src="{% static 'main/share.png' %}">&nbsp;<label><input type="text" value="" id="urlCopy" style="display: none;">Copy</label><span class="urlAlert" id="urlAlert-{{ post.pk }}">Link copied!</span>
 						</div>
 					</div>
@@ -415,7 +415,7 @@
 							</form>
 						</div>
 						<div><a class="comment" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}"><img src="{% static 'main/comment-light.png' %}">&nbsp;<label>Comment</label></a></div>
-						<div class="share" id="copy_link" onclick='copy("https://stacks-hq3r.onrender.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
+						<div class="share" id="copy_link" onclick='copy("https://stacks.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
 							<img src="{% static 'main/share-light.png' %}">&nbsp;<label><input type="text" value="" id="urlCopy" style="display: none;">Copy</label><span class="urlAlert1" id="urlAlert1-{{ post.pk }}">Link copied!</span>
 						</div>
 					</div>
@@ -432,8 +432,10 @@
 		var menu = document.getElementById('menu');
 		function drop(pk) {
 			var obj = document.getElementById('post-'+pk);
-			if (obj.style.display === 'none') {
+			var displayStyle = window.getComputedStyle(obj).display;
+			if (displayStyle === 'none') {
 				obj.style.display = 'flex';
+				// console.log("click")
 			} else {
 					obj.style.display = 'none';
 			}

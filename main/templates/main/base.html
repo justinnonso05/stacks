@@ -83,9 +83,8 @@
 				<a class="desk-item" href="{% url 'home' %}"><i class="fa fa-home"></i>Home</a><hr class="desk-hr">
 				<a class="desk-item" href="{% url 'groups' %}"><i class="fa fa-users"></i>Groups</a><hr class="desk-hr">
 				<a class="desk-item" href="{% url 'message' %}"><i class="fa fa-envelope"></i>Messages</a><hr class="desk-hr">
-				<!-- <a class="desk-item" href="{% url 'materials' %}"><i class="fa fa-book"></i>Materials</a><hr class="desk-hr"> -->
 				<a class="desk-item" href="{% url 'password_reset' %}">Reset Password</a><hr class="desk-hr">
-				<a href="{% url 'announcement' %}" class="mob-item">Announcements</a><hr class="mob-hr">
+				<a href="#" class="mob-item">Settings</a><hr class="mob-hr">
 				<a href="{% url 'password_reset' %}" class="mob-item">Reset Password</a><hr class="mob-hr">
 			<!-- 	<a href="#" class="mob-item">About</a><hr class="mob-hr">
 				<a href="#" class="mob-item">Terms and Conditions</a><hr class="mob-hr">
@@ -132,11 +131,17 @@
 			</div>
 		</div>
 	</div>
+	<style>
+		i.fa-bell {
+			position: relative;
+			left: 19px;
+		}
+	</style>
 	<div class="bottom-nav">
 		<a href="{% url 'home' %}"><i class="fa fa-home"></i></a>
 		<a href="{% url 'groups' %}"><i class="fa fa-users"></i></a>
 		<a href="{% url 'create-post' %}"><i class="fa fa-plus"></i></a>
-		<a href="{% url 'materials' %}"><i class="fa fa-bell"></i></a>
+		<a href="{% url 'notifications' %}"><i class="fa fa-bell"></i></a>
 		<a href="{% url 'message' %}"><i class="fa fa-envelope"></i></a>
 	</div>
 

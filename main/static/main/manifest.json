@@ -1,25 +1,37 @@
 {
   "background_color": "#ffffff",
-  "description": "Justin Chinonso | Tech enthusiast",
+  "description": "Stacks || Developer Community",
   "dir": "ltr",
   "display": "standalone",
-  "name": "Justondev",
-  "orientation": "any",
+  "name":  "Stacks",
+  "orientation": "portrait",
   "scope": "/",
-  "short_name": "Justondev",
-  "start_url": "/",
-  "theme_color": "#ffffff",
-  "categories": [],
+  "short_name": "Stacks",
+  "start_url": "https://stacks.pythonanywhere.com",
+  "theme_color": "#000000",
+  "categories": [
+    "utilities"
+  ],
   "screenshots": [],
   "icons": [
+        {
+          "src": "logo.png",
+          "type": "image/png",
+          "sizes": "512x512"
+        },
+        {
+          "src": "logo.png"
+        }
+      ],
+  "shortcuts": [
     {
-      "src": "img/juston.png",
-      "type": "image/png",
-      "sizes": "644x414"
-    },
-    {
-      "src": "juston.png"
+      "name": "Home",
+      "url": "/",
+      "description": "Home"
     }
   ],
-  "shortcuts": []
+  "lang": "en",
+  "share_target": {
+    "method": "GET"
+  }
 }

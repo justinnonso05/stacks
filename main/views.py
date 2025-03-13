@@ -10,6 +10,12 @@ import os
 from django.conf import settings
 from django.db.models import Q, Count
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.core.mail import send_mass_mail
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import EmailMultiAlternatives, get_connection
 
 
 def landing(request):
@@ -115,6 +121,15 @@ class SearchResultView(LoginRequiredMixin, ListView):
 		queryset = queryset.annotate(num_comments = Count('comments'))
 		return queryset
 
+	def get_users(self):
+		search_query = self.request.GET.get('key')
+		if search_query:
+			users = User.objects.filter(Q(username__icontains = search_query.lower()) | Q(profile__bio__icontains = search_query.upper()) | Q(profile__full_name__icontains = search_query.upper()))
+		else:
+			users = User.objects.none()
+		return users
+
+
 	def form_valid(self, form):
 		form.instance.user = self.request.user
 		return super().form_valid(form)
@@ -122,6 +137,7 @@ class SearchResultView(LoginRequiredMixin, ListView):
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['title'] = 'Search Results'
+		context['users'] = self.get_users()
 		return context
 
 
@@ -187,5 +203,48 @@ def like_post(request, post_id):
 
 	return redirect(request.META.get('HTTP_REFERER', 'redirect_if_refer_not_found'))
 
+@login_required
+def liked_posts(request, post_id):
+	post = get_object_or_404(Post, pk=post_id)
+	users = post.likes.all()
+	profiles = Profile.objects.filter(user__in=users)
+	context = {
+		'profiles': profiles,
+		'post': post
+		}
+	return render(request, 'main/liked_posts.html', context)
 
-# test
+def superuser_required(user):
+	return user.is_superuser or user.is_staff
+
+def send_mass_html_mail(datatuple, fail_silently=False, user=None, password=None, connection=None):
+    connection = connection or get_connection(username=user, password=password, fail_silently=fail_silently)
+    messages = []
+    for subject, text, html, from_email, recipient in datatuple:
+        msg = EmailMultiAlternatives(subject, text, from_email, recipient)
+        msg.attach_alternative(html, 'text/html')
+        messages.append(msg)
+    return connection.send_messages(messages)
+
+@login_required
+def send_bulk_email_view(request):
+    if not (request.user.is_superuser or request.user.is_staff):
+        return JsonResponse({'error': 'You do not have permission to access this page!'}, status=403)
+
+    subject = 'Hop Back on Our Site!'
+    from_email = 'Stacks <thestacks.dev@gmail.com>'
+
+    users = User.objects.all()
+    recipient_list = [user.email for user in users]
+
+    messages = []
+
+    for email in recipient_list:
+        html_content = render_to_string('main/email.html')
+        text_content = strip_tags(html_content)
+
+        messages.append((subject, text_content, html_content, from_email, [email]))
+
+    send_mass_html_mail(messages)
+
+    return JsonResponse({'status': 'Emails sent successfully!'})

@@ -1,0 +1,208 @@
+/*#121212
+#6e6e6e
+
+#2980b9 logo and other blue
+
+#4da1e0, #1f608e image borders
+*/
+
+/*img {
+	border: 1px solid #1f608e;
+}*/
+/* custom scrollbar
+::-webkit-scrollbar {
+    width: 7px;
+}
+::-webkit-scrollbar-track {
+	width: 7px;
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgb(120, 120, 120);
+    border-radius: 10px;
+}
+::-moz-scrollbar-track {
+    background-color: white;
+}
+::-moz-scrollbar-thumb {
+    background-color: rgb(24, 16, 180);
+    border-radius: 1px;
+} */
+
+
+hr {
+	border-color: rgba(255, 255, 255, .2);
+}
+i.fa-search {
+	color: #2980b9;
+}
+header {
+	background-color: #181b20;
+}
+div.content, div.menu, body {
+	background-color: #1c1f27;
+}
+label, p, h1, h2, h3, h4, div.likes label a, h3 a.search-name, div.profile-content ul li {
+	color: white;
+}
+label.logo span {
+	background-color: #2980b9;
+}
+a.top-profile-des {
+	color: #2980b9;
+}
+div.user, div.posts, div.featured-wrapper, div.create-post, div.profile-content, div.login-content, div.signup-content, div.settings-container, div.dark-theme, div.photo-grid, div.discover {
+	background-color: rgba(255, 255, 255, .1);
+/*	box-shadow: 0px 0px .5px .5px rgba(255, 255, 255, .1);*/
+}
+div.photo-grid a, div.name, div.bio {
+	color: white;
+}
+div.bottom-nav {
+	background-color: rgba(0, 0, 0, .5);
+	backdrop-filter: blur(10px);
+}
+@-moz-document url-prefix() {
+	div.bottom-nav {
+		background-color: #1c1f27;
+	}
+}
+div.comments-wrapper section {
+	background-color: rgba(255, 255, 255, .1);
+}
+div.user p.fullname a, div.author a {
+	color: white;
+}
+div.user p.username, div.posts span.date {
+	color: rgba(255, 255, 255, .9);
+}
+div.menu-items {
+	background-color: rgba(255, 255, 255, .1);
+/*	box-shadow: 0px 0px .5px .5px rgba(255, 255, 255, .1);*/
+}
+div.menu-items a, div.menu-items a i, button.logout {
+	color: rgb(240, 240, 240);
+}
+div.menu-items a:hover, button.logout:hover {
+	background-color: #1c1f27;
+}
+div.menu-items a:focus, button.logout:focus {
+	background-color: #1c1f27;
+	border-left: 4px solid black;
+}
+div.add-new input {
+	background-color: rgba(255, 255, 255, .1);
+	border: 1px solid rgba(0, 0, 0, .3);
+}
+
+div.add-new input::placeholder {
+	color: rgb(255, 255, 255);
+}
+div.search input {
+	color: white;
+	background-color: rgba(255, 255, 255, .1);
+}
+div.search input::placeholder, div.create-post textarea::placeholder, footer {
+	color: white;
+}
+div.comment-dark {
+	display: grid;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+	justify-items: center;
+	grid-template-columns: repeat(3, 1fr);
+	position: relative;
+	bottom: 13px;
+}
+div.comment-dark img {
+	width: 22px;
+	height: auto;
+}
+div.comment {
+	display: none;
+}
+div.copywright div {
+	color: white;
+}
+div.create-post textarea {
+	color: white;
+	background-color: rgba(255, 255, 255, .3);
+}
+
+p.signup span {
+	border-bottom: 2px solid white;
+}
+div.form-group label {
+	color: white;
+}
+small.text-muted {
+	color: red;
+	font-weight: 900;
+	border-color: red;
+}
+div.profile-cover img.profile-image {
+	border: 4px solid rgb(65, 65, 65);
+}
+div.sub-profile-info a {
+	color: #2980b9;
+}
+div.login-content p.login {
+	color: white;
+}
+div.login-content input, div.login-content textarea {
+	background-color: transparent;
+	color: white;
+	border: none;
+	box-shadow: 0px 0px 2px 1px white;
+}
+div.login-content input::placeholder, div.login-content textarea::placeholder {
+	color: rgba(255, 255, 255, .7);
+}
+div.login-content input:focus, div.login-content textarea:focus {
+	background-color: rgba(255, 255, 255, .2);
+	color: white;
+}
+div.author i.fa-ellipsis-v {
+	box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, .08);
+	color: white;
+}
+div.comment-dark div.share span.urlAlert1 {
+	position: absolute;
+	padding: 5px;
+	background-color: rgba(0,0,0,.2);
+	backdrop-filter: blur(10px);
+	box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, .2);
+	border-radius: 3px;
+	width: 140px;
+	bottom: 40px;
+	right: 7px;
+	color: white;
+	display: none;
+}
+div.like form button {
+	background-color: rgba(255, 255, 255, .08) !important;
+}
+div.share {
+	background-color: rgba(255, 255, 255, .08) !important;
+}
+a.comment {
+	background-color: rgba(255, 255, 255, .08) !important;
+}
+div.materials div.image-grid a {
+	color: white;
+}
+div.comments-wrapper section h2 a {
+	color: white;
+	text-decoration: none;
+}
+div.profile-posts div.posts {
+	background: transparent;
+	box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, .2);
+}
+label.light {
+	display: block !important;
+}
+label.dark {
+	display: none !important;
+}

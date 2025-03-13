@@ -1,0 +1,64 @@
+{% extends "main/base.html" %}
+{% load static %}
+	{% block content %}
+    <style>
+        ul {
+            list-style: none;
+
+        }
+        div.profile-content a {
+            text-decoration: none;
+            color: #2980b9;;
+        }
+        div.profile-content {
+            padding: 10px;
+        }
+        div.profile-content h2 {
+            font-size: 15px;
+        }
+        @media only screen and (max-width: 800px) {
+			div.content {
+				grid-template-columns: repeat(1, 1fr);
+			}
+			div.menu.active {
+				display: block;
+			}
+			div.menu {
+				display: none;
+				position: static;
+/*				width: 100px;*/
+			}
+			#allPosts.active {
+				display: none;
+			}
+			div.profile-container {
+				padding: 0px 0px;
+				scrollbar-width: none;
+			}
+		}
+
+    </style>
+
+    <div class="profile-container" id="allPosts">
+		<div class="profile-content">
+            <h2>Those who liked {{ profile.user.username }}'s profile</h2>
+            <ul>
+                {% for profile in profiles %}
+                    <li><a href="{% url 'user-profile' profile.user.username %}">{{profile.full_name}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <script type="text/javascript">
+            var topProfile = document.getElementById('top-profile');
+            var allPosts = document.getElementById('allPosts');
+            var menu = document.getElementById('menu');
+
+            topProfile.addEventListener('click', () => {
+                menu.classList.toggle('active')
+                allPosts.classList.toggle('active')
+            });
+        </script>
+    </div>
+
+	{% endblock content%}

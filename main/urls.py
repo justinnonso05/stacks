@@ -13,8 +13,10 @@ urlpatterns = [
     path('posts/delete/<int:pk>/', DeletePostView.as_view(), name = 'delete-post'),
     path('app/messages/', MessageView.as_view(), name = 'message'),
     path('app/search/', SearchResultView.as_view(), name = 'search'),
-    path('app/level_materials/', views.materials, name = 'materials'),
+    path('app/notifications/', views.materials, name = 'notifications'),
     path('app/groups/', views.groups, name = 'groups'),
     path('announcements/', views.announcement, name = 'announcement'),
     path('like/<int:post_id>/', views.like_post, name = 'like-post'),
+    path('liked-post/<int:post_id>/', views.liked_posts, name = 'liked-post'),
+    path('send_bulk_email/', views.send_bulk_email_view, name='send_bulk_email'),
 ]

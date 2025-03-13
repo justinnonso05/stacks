@@ -1,0 +1,37 @@
+{
+  "background_color": "#ffffff",
+  "description": "Stacks || Developer Community",
+  "dir": "ltr",
+  "display": "standalone",
+  "name":  "Stacks",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "Stacks",
+  "start_url": "https://stacks.pythonanywhere.com",
+  "theme_color": "#000000",
+  "categories": [
+    "utilities"
+  ],
+  "screenshots": [],
+  "icons": [
+        {
+          "src": "https://stacks.pythonanywhere.com/static/main/logo.png",
+          "type": "image/png",
+          "sizes": "512x512"
+        },
+        {
+          "src": "https://stacks.pythonanywhere.com/static/main/logo.png"
+        }
+      ],
+  "shortcuts": [
+    {
+      "name": "Home",
+      "url": "/",
+      "description": "Home"
+    }
+  ],
+  "lang": "en",
+  "share_target": {
+    "method": "GET"
+  }
+}

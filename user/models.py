@@ -19,7 +19,7 @@ def resize_image(image):
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete = models.CASCADE)
 	verified = models.BooleanField(default=False)
-	full_name = models.CharField(max_length = 200, default = "")
+	full_name = models.CharField(max_length = 200)
 	Profile_picture = models.ImageField(blank = True, null = True, default = '', upload_to = 'profile_pics')
 	bio = models.TextField(max_length = 150, default = "", blank = True, null = True)
 	tech_stack = models.CharField(max_length =100, default = "", blank = True, null = True)
@@ -40,4 +40,7 @@ class Profile(models.Model):
 			self.Profile_picture = resize_image(self.Profile_picture)
 			super().save(*args, **kwargs)
 		super().save(*args, **kwargs)
+
+
+# run makemigrations & migrations
 		

@@ -32,6 +32,10 @@
 		div.bio, div.bio-edit, div.name {
 			margin-top: -10px;
 		}
+		div.bio a {
+			color: #2980b9;
+			font-weight: 600;
+		}
 		div.name {
 			font-weight: 900;
 			font-family: 'poppins';
@@ -138,7 +142,7 @@
 				scrollbar-width: none;
 			}
 		}
-		
+
 	</style>
 	<div class="profile-container" id="allPosts">
 		<div class="profile-content">
@@ -176,10 +180,10 @@
 					{% if profile.bio == "none" %}
 						<div class="bio-edit">Hey there, I'm using Stacks</div>
 					{% else %}
-						<div class="bio">{{ profile.bio }}</div>
+						<div class="bio">{{ profile.bio|linebreaksbr }}</div>
 					{% endif %}
     			</div><hr>
-				<div class="bio">{{ profile.total_likes }} Profile Likes</div>
+				<div class="bio"><a href="{% url 'liked-profiles' profile.id %}">{{ profile.total_likes }} Profile Likes</a></div>
 				<div class="sub-profile-info">
 					{% if profile.current_city != None %}
 					<p class="location"><i class="fa fa-map-marker"></i>{{ profile.current_city }}</p>
@@ -215,12 +219,12 @@
 							<div class="post-image"><img class="post-image" src="{{ post.Post_image.url }}"></div>
 						{% endif %}<hr>
 						<div class="likes">
-							{% if post.total_likes == 1 or post.total_likes == 0 %}
-								<label>{{ post.total_likes }} Like</label>&nbsp;.&nbsp;<label>{{ post.num_comments }} Comments</label>
-						    {% else %}
-							    <label>{{ post.total_likes }} Likes</label>&nbsp;.&nbsp;<label>{{ post.num_comments }} Comments</label>
-							{% endif %}
-						</div><hr>
+						{% if post.total_likes == 1 or post.total_likes == 0 %}
+							<label><a href="{% url 'liked-post' post_id=post.id %}">{{ post.total_likes }} Like</a></label>&nbsp;&nbsp;&nbsp;<label><a href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}">{{ post.num_comments }} Comments</a></label>
+						{% else %}
+							<label><a href="{% url 'liked-post' post_id=post.id %}">{{ post.total_likes }} Likes</a></label>&nbsp;&nbsp;&nbsp;<label><a class="comment1" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}">{{ post.num_comments }} Comments</a></label>
+						{% endif %}
+					</div><hr>
 						<div class="comment">
 							<div class="like">
 								<form class="like" action="{% url 'like-post' post.id %}?next={{ request.path }}#current-post-{{ post.pk }}" method="POST">
@@ -235,7 +239,7 @@
 								</form>
 							</div>
 							<div><a class="comment" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}"><img src="{% static 'main/comment.png' %}">&nbsp;<label>Comment</label></a></div>
-							<div class="share" id="copy_link" onclick='copy("http://cscui23.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
+							<div class="share" id="copy_link" onclick='copy("http://stacks.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
 							<img src="{% static 'main/share.png' %}">&nbsp;<label><input type="text" value="" id="urlCopy" style="display: none;">Copy</label><span class="urlAlert" id="urlAlert-{{ post.pk }}">Link copied!</span>
 						</div>
 						</div>
@@ -253,7 +257,7 @@
 								</form>
 							</div>
 							<div><a class="comment" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}"><img src="{% static 'main/comment-light.png' %}">&nbsp;<label>Comment</label></a></div>
-							<div class="share" id="copy_link" onclick='copy("http://cscui23.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
+							<div class="share" id="copy_link" onclick='copy("http://stacks.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
 							<img src="{% static 'main/share-light.png' %}">&nbsp;<label><input type="text" value="" id="urlCopy" style="display: none;">Copy</label><span class="urlAlert1" id="urlAlert1-{{ post.pk }}">Link copied!</span>
 						</div>
 						</div>

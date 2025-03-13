@@ -24,11 +24,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-z0ozj27c)-sop28(b6=^=%s50qve!b18u6+#lwh%&r%wo*ytbc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = ["https://stacks-hq3r.onrender.com"]
+CSRF_TRUSTED_ORIGINS = ["https://stacks.pythonanywhere.com"]
 
 # Application definition
 # postgres://justin:vaXGb1ywocnoikKex1UJKwIMjL7zKzJ1@dpg-cpl3oeg21fec7385chq0-a.oregon-postgres.render.com/stacks_g7ix
@@ -65,7 +65,7 @@ ROOT_URLCONF = 'Social.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [], 
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,10 +84,23 @@ WSGI_APPLICATION = 'Social.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'stacks$mysql_stacks',
+        'USER': 'stacks',
+        'PASSWORD': 'justondev',
+        'HOST': 'stacks.mysql.pythonanywhere-services.com',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
 
@@ -101,7 +114,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'thestacks.dev@gmail.com'
 EMAIL_HOST_PASSWORD = 'noxu wiqa ulmd vata'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'thestacks.dev@gmail.com'
+DEFAULT_FROM_EMAIL = 'Stacks <thestacks.dev@gmail.com>'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -143,9 +156,9 @@ LOGOUT_REDIRECT_URL = 'home'
 LOGIN_REDIRECT_URL = 'home'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
-STATIC_ROOT = BASE_DIR/'assets'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

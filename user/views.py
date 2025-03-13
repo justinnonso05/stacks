@@ -10,7 +10,7 @@ from .models import User, Profile
 from main.models import Post
 from django.db.models import Count
 from .forms import RegisterForm, PassResetForm
-import re 
+import re
 
 
 def signup(request):
@@ -105,8 +105,6 @@ class DetailProfileView(LoginRequiredMixin, DetailView):
 	model = Profile
 	template_name = 'user/profile.html'
 	context_object_name = 'profile'
-	profiles = Profile.objects.get(user__username = 'justondev')
-	bio = profiles.bio
 
 	def get_object(self, queryset = None):
 		username = self.kwargs.get('username')
@@ -130,3 +128,15 @@ def like_profile(request, profile_id):
 		profile.likes.add(request.user)
 
 	return redirect(request.META.get('HTTP_REFERER', 'redirect_if_refer_not_found'))
+
+@login_required
+def liked_profiles(request, profile_id):
+	profile = get_object_or_404(Profile, pk=profile_id)
+	users = profile.likes.all()
+	profiles = Profile.objects.filter(user__in=users)
+	context = {
+        'profile': profile,
+        'profiles': profiles
+    }
+	return render(request, 'user/liked_profiles.html', context)
+

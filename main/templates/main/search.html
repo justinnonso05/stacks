@@ -2,6 +2,17 @@
 {% load static %}
 	{% block content %}
 	<style type="text/css">
+		div.add-new a.input {
+			background-color: transparent;
+			text-decoration: none;
+			padding: 0px;
+		}
+		div.add-new input {
+			width: 102%;
+			cursor: pointer;
+			position: relative;
+			left: -10px;
+		}
 		div.share label {
 				cursor: pointer;
 			}
@@ -75,10 +86,15 @@
 		}
 
 		h2.feed {
-			font-weight: 700;
+			font-weight: 800;
 			font-size: 23px;
 			font-family: 'kanit';
-			margin-left: 20px;
+			/* margin-left: 20px; */
+		}
+		h3.search-head {
+			font-size: 20px;
+			font-weight: 600;
+			margin-top: 10px;
 		}
 		div.post-button {
 /*				width: 170px;*/
@@ -121,7 +137,7 @@
 		div.postmenu {
 			position: absolute;
 			right: 5px;
-			top: 20px;
+			top: 40px;
 			display: none;
 			flex-direction: column;
 			background-color: rgba(255, 255, 255, .5);
@@ -212,6 +228,12 @@
 			div.comment-dark label {
 				display: none;
 			}
+			h2.feed, h3.search-head {
+				margin-left: 10px;
+			}
+			p.not-found {
+				margin-left: 12px;
+			}
 			@media only screen and (max-width: 580px) {
 				div.posts-container {
 					padding-left: 0px;
@@ -240,22 +262,37 @@
 			{% endfor %}
 		{% endif %}
 		<div class="add-new">
-			<input type="text" name="new-post" disabled placeholder="Post something to the class"><a href="{% url 'create-post' %}">Create Post</a>
+			<a href="{% url 'create-post' %}" class="input"><input type="text" name="new-post" placeholder="Add a post..."></a><a class="new" href="{% url 'create-post' %}">Create Post</a>
 		</div>
 		<div class="posts-container">
 			<h2 class="feed">Search results</h2>
+			<h3 class="search-head">Users</h3>
+			{% for user in users %}
+				<div class="posts">
+					<h3><a class="search-name" href="{% url 'user-profile' user.username %}">{{ user.profile.full_name }}</a></h3>
+					{% if user.profile.bio == 'none' %}
+						<p></p>
+					{% else %}
+						<p>{{ user.profile.bio }}</p>
+					{% endif %}
+				</div>
+			{% empty %}
+				<p class="not-found">No users found</p>
+			{% endfor %}
+
+			<h3 class="search-head">Posts</h3>
 			{% if posts.count == 0 %}
 				<div class="tasks">
-					<p style="font-size: 30px; font-weight: 900; padding-left: 10px;">Your Search returned no results</p>
+					<p style="font-size: 16px;" class="not-found">Your Search returned no results</p>
 				</div>
 			{% else %}
 				{% for post in posts %}
 					<div class="posts">
 						<div class="author">
 							{% if post.author.Profile_picture %}
-								<a href="{% url 'user-profile' post.author.user.username %}"><img src="{{ post.author.Profile_picture.url }}"></a><div class="posthead"><h2 class="author"><a class="post-author" href="{% url 'user-profile' post.author.user.username %}">{{ post.author.full_name }}{% if post.author.verified %}<img class="verified" src="{% static 'main/verified.png' %}">{% endif %}</a><br><span class="date">{{ post.date_posted }}</h2><span><i onclick="drop('{{ post.pk }}')" class="fa fa-ellipsis-v"></i></span><div class="postmenu" id="post-{{ post.pk }}"><span>Remove post</span><span>Copy link</span><span>Save Post</span><span>Report post</span></div></div>
+								<a href="{% url 'user-profile' post.author.user.username %}"><img src="{{ post.author.Profile_picture.url }}"></a><div class="posthead"><h2 class="author"><a class="post-author" href="{% url 'user-profile' post.author.user.username %}">{{ post.author.full_name }}{% if post.author.verified %}<img class="verified" src="{% static 'main/verified.png' %}">{% endif %}</a><br><span class="date">{{ post.date_posted }}</h2><span><i onclick="drop('{{ post.pk }}')" class="fa fa-ellipsis-v"></i></span><div class="postmenu" id="post-{{ post.pk }}">{% if post.author == request.user.profile %}<span><a href="{% url 'delete-post' post.pk %}">Delete post</a></span><span><a href="{% url 'edit-post' post.pk %}">Edit post</a></span>{% endif %}<span><a class="view" href="https://api.whatsapp.com/send?text=https://stacks.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}" target="_blank">Share <i class="fab fa-whatsapp"></i></a></span></div></div>
 							{% else %}
-								<a href="{% url 'user-profile' post.author.user.username %}"><img src="{% static 'main/default.jpg' %}"></a><div class="posthead"><h2 class="author"><a class="post-author" href="{% url 'user-profile' post.author.user.username %}">{{ post.author.full_name }}{% if post.author.verified %}<img class="verified" src="{% static 'main/verified.png' %}">{% endif %}</a><br><span class="date">{{ post.date_posted }}</h2><span><i onclick="drop('{{ post.pk }}')" class="fa fa-ellipsis-v"></i></span><div class="postmenu" id="post-{{ post.pk }}"><span>Remove post</span><span>Copy link</span><span>Save Post</span><span>Report post</span></div></div>
+								<a href="{% url 'user-profile' post.author.user.username %}"><img src="{% static 'main/default.jpg' %}"></a><div class="posthead"><h2 class="author"><a class="post-author" href="{% url 'user-profile' post.author.user.username %}">{{ post.author.full_name }}{% if post.author.verified %}<img class="verified" src="{% static 'main/verified.png' %}">{% endif %}</a><br><span class="date">{{ post.date_posted }}</h2><span><i onclick="drop('{{ post.pk }}')" class="fa fa-ellipsis-v"></i></span><div class="postmenu" id="post-{{ post.pk }}">{% if post.author == request.user.profile %}<span><a href="{% url 'delete-post' post.pk %}">Delete post</a></span><a href="{% url 'edit-post' post.pk %}"><span>Edit post</span></a>{% endif %}<span><a class="view" href="https://api.whatsapp.com/send?text=https://stacks.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}" target="_blank">Share <i class="fab fa-whatsapp"></i></a></span></div></div>
 							{% endif %}
 						</div>
 						<!-- <hr class="post"> -->
@@ -265,9 +302,9 @@
 						{% endif %}<hr>
 						<div class="likes">
 							{% if post.total_likes == 1 or post.total_likes == 0 %}
-								<label>{{ post.total_likes }} Like</label>&nbsp;.&nbsp;<label>{{ post.num_comments }} Comments</label>
-						    {% else %}
-							    <label>{{ post.total_likes }} Likes</label>&nbsp;.&nbsp;<label>{{ post.num_comments }} Comments</label>
+								<label><a href="{% url 'liked-post' post_id=post.id %}">{{ post.total_likes }} Like</a></label>&nbsp;&nbsp;&nbsp;<label><a href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}">{{ post.num_comments }} Comments</a></label>
+							{% else %}
+								<label><a href="{% url 'liked-post' post_id=post.id %}">{{ post.total_likes }} Likes</a></label>&nbsp;&nbsp;&nbsp;<label><a class="comment" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}">{{ post.num_comments }} Comments</a></label>
 							{% endif %}
 						</div><hr>
 						<div class="comment">
@@ -284,7 +321,7 @@
 								</form>
 							</div>
 							<div><a class="comment" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}"><img src="{% static 'main/comment.png' %}">&nbsp;<label>Comment</label></a></div>
-							<div class="share" id="copy_link" onclick='copy("https://stacks-hq3r.onrender.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
+							<div class="share" id="copy_link" onclick='copy("https://stacks.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
 								<img src="{% static 'main/share.png' %}">&nbsp;<label><input type="text" value="" id="urlCopy" style="display: none;">Copy</label><span class="urlAlert" id="urlAlert-{{ post.pk }}">Link copied!</span>
 							</div>
 						</div>
@@ -302,7 +339,7 @@
 								</form>
 							</div>
 							<div><a class="comment" href="{% url 'post-detail' pk=post.pk username=post.author.user.username %}"><img src="{% static 'main/comment-light.png' %}">&nbsp;<label>Comment</label></a></div>
-							<div class="share" id="copy_link" onclick='copy("https://stacks-hq3r.onrender.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
+							<div class="share" id="copy_link" onclick='copy("https://stacks.pythonanywhere.com/posts/{{ post.pk }}/{{ post.author.user.username }}", "{{ post.pk }}")'>
 								<img src="{% static 'main/share-light.png' %}">&nbsp;<label><input type="text" value="" id="urlCopy" style="display: none;">Copy</label><span class="urlAlert1" id="urlAlert1-{{ post.pk }}">Link copied!</span>
 							</div>
 						</div>
@@ -320,8 +357,10 @@
 		var menu = document.getElementById('menu');
 		function drop(pk) {
 			var obj = document.getElementById('post-'+pk);
-			if (obj.style.display === 'none') {
+			var displayStyle = window.getComputedStyle(obj).display;
+			if (displayStyle === 'none') {
 				obj.style.display = 'flex';
+				// console.log("click")
 			} else {
 					obj.style.display = 'none';
 			}
