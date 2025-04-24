@@ -195,13 +195,20 @@ def announcement(request):
 
 @login_required
 def like_post(request, post_id):
-	post = get_object_or_404(Post, id=post_id)
-	if post.likes.filter(id=request.user.id).exists():
-		post.likes.remove(request.user)
-	else:
-		post.likes.add(request.user)
+    post = get_object_or_404(Post, id=post_id)
+    user = request.user
+    if user in post.likes.all():
+        post.likes.remove(user)
+        liked = False
+    else:
+        post.likes.add(user)
+        liked = True
 
-	return redirect(request.META.get('HTTP_REFERER', 'redirect_if_refer_not_found'))
+    return JsonResponse({
+        'liked': liked,
+        'like_count': post.likes.count(),
+    })
+
 
 @login_required
 def liked_posts(request, post_id):

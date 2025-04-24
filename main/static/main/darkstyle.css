@@ -105,23 +105,7 @@ div.search input {
 div.search input::placeholder, div.create-post textarea::placeholder, footer {
 	color: white;
 }
-div.comment-dark {
-	display: grid;
-	align-items: center;
-	text-align: center;
-	justify-content: center;
-	justify-items: center;
-	grid-template-columns: repeat(3, 1fr);
-	position: relative;
-	bottom: 13px;
-}
-div.comment-dark img {
-	width: 22px;
-	height: auto;
-}
-div.comment {
-	display: none;
-}
+
 div.copywright div {
 	color: white;
 }
@@ -167,27 +151,18 @@ div.author i.fa-ellipsis-v {
 	box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, .08);
 	color: white;
 }
-div.comment-dark div.share span.urlAlert1 {
-	position: absolute;
-	padding: 5px;
-	background-color: rgba(0,0,0,.2);
-	backdrop-filter: blur(10px);
-	box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, .2);
-	border-radius: 3px;
-	width: 140px;
-	bottom: 40px;
-	right: 7px;
-	color: white;
-	display: none;
-}
+
 div.like form button {
-	background-color: rgba(255, 255, 255, .08) !important;
+	color: white;
+}
+div.like span {
+	color: white;
 }
 div.share {
-	background-color: rgba(255, 255, 255, .08) !important;
+	color: white;
 }
 a.comment {
-	background-color: rgba(255, 255, 255, .08) !important;
+	color: white !important;
 }
 div.materials div.image-grid a {
 	color: white;

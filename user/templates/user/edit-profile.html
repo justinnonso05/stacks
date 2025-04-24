@@ -100,6 +100,75 @@
 			}
 
 		}
+		/* Modern checkbox styling */
+		#Profile_picture-clear_id {
+			appearance: none;
+			-webkit-appearance: none;
+			width: 20px;
+			height: 20px;
+			border: 2px solid #3498db;
+			border-radius: 4px;
+			outline: none;
+			cursor: pointer;
+			position: relative;
+			background-color: transparent;
+			transition: all 0.2s ease;
+			vertical-align: middle;
+			margin-right: 8px;
+		}
+
+		#Profile_picture-clear_id:checked {
+			background-color: #3498db;
+			border-color: #3498db;
+		}
+
+		#Profile_picture-clear_id:checked::after {
+			content: '✓';
+			position: absolute;
+			color: white;
+			font-size: 14px;
+			font-weight: bold;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		#Profile_picture-clear_id:hover {
+			border-color: #2980b9;
+			box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+		}
+
+		label[for="Profile_picture-clear_id"] {
+			font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+			font-size: 14px;
+			color: #2c3e50;
+			cursor: pointer;
+			user-select: none;
+			display: inline-flex;
+			align-items: center;
+			padding: 6px 10px;
+			border-radius: 4px;
+			transition: all 0.2s ease;
+		}
+
+		label[for="Profile_picture-clear_id"]:hover {
+			background-color: rgba(52, 152, 219, 0.1);
+		}
+
+		/* Dark theme support */
+		@media (prefers-color-scheme: dark) {
+			#Profile_picture-clear_id {
+				border-color: #3498db;
+			}
+		
+			label[for="Profile_picture-clear_id"] {
+				color: #ecf0f1;
+			}
+			
+			label[for="Profile_picture-clear_id"]:hover {
+				background-color: rgba(52, 152, 219, 0.2);
+			}
+		}
 	</style>
 	{% if messages %}
 		{% for message in messages %}

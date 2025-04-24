@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,11 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-z0ozj27c)-sop28(b6=^=%s50qve!b18u6+#lwh%&r%wo*ytbc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = config("DJANGO_DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*"] if DEBUG else ["https://stacks.pythonanywhere.com"]
 
-CSRF_TRUSTED_ORIGINS = ["https://stacks.pythonanywhere.com"]
+CSRF_TRUSTED_ORIGINS = ["https://116c-102-89-33-32.ngrok-free.app"] if DEBUG else ["https://your-production-domain.com"]
+
 
 # Application definition
 # postgres://justin:vaXGb1ywocnoikKex1UJKwIMjL7zKzJ1@dpg-cpl3oeg21fec7385chq0-a.oregon-postgres.render.com/stacks_g7ix
@@ -84,31 +86,32 @@ WSGI_APPLICATION = 'Social.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'stacks$mysql_stacks',
-        'USER': 'stacks',
-        'PASSWORD': 'justondev',
-        'HOST': 'stacks.mysql.pythonanywhere-services.com',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        },
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'stacks$mysql_stacks',
+            'USER': 'stacks',
+            'PASSWORD': 'justondev',
+            'HOST': 'stacks.mysql.pythonanywhere-services.com',
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+            },
+        }
+    }
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'thestacks.dev@gmail.com'
@@ -158,7 +161,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# Whitenoise storage only in production
+if not DEBUG:
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

@@ -33,15 +33,14 @@
 
 <body>
 	<header>
-		<!-- <label class="logo">Code<span>Hub</span></label> -->
 		<label class="logo light"><a href="{% url 'home' %}"><img src="{% static 'main/stacks1.png' %}"></a></label>
 		<label class="logo dark"><a href="{% url 'home' %}"><img src="{% static 'main/stacks3.png' %}"></a></label>
+		<div class="search"><i id="search-icon-mob" class="fa fa-search"></i><form action="{% url 'search' %}" method="get" class="search-form" id="search_form"><button class="search" type="submit"><i id="search-icon" class="fa fa-search"></i></button><input class="search" type="search" name="key" placeholder="Search posts"><i id="search-times" class="fa fa-times"></i></form>
+		</div>
+		<div></div>
 		<nav>
-
 			{% if request.user.is_authenticated %}
 				<div class="nav-logged">
-					<div class="search"><i id="search-icon-mob" class="fa fa-search"></i><form action="{% url 'search' %}" method="get" class="search-form" id="search_form"><button class="search" type="submit"><i id="search-icon" class="fa fa-search"></i></button><input class="search" type="search" name="key" placeholder="Search posts"><i id="search-times" class="fa fa-times"></i></form>
-					</div>
 					{% if request.user.profile.Profile_picture %}
 						<a class="top-profile-des" href="{% url 'user-profile' request.user.username %}"><img class="top-profile" src="{{ request.user.profile.Profile_picture.url }}">Profile</a>
 						<a class="top-profile-mob" href="#" id="top-profile"><img class="top-profile" src="{{ request.user.profile.Profile_picture.url }}"></a>
@@ -71,19 +70,21 @@
 				{% else %}
 					<a href="{% url 'login' %}">Login</a>
 			{% endif %}
-			</div>
+			</div><hr>
 			<div class="dark-theme">
                 <label>Dark Theme</label>
                 <label class="switch" title="Toggle light/dark mode">
                     <input type="checkbox" class="toggle-switch">
                     <span class="slider round"></span>
                 </label>
-            </div>
+            </div><hr>
 			<div class="menu-items">
-				<a class="desk-item" href="{% url 'home' %}"><i class="fa fa-home"></i>Home</a><hr class="desk-hr">
-				<a class="desk-item" href="{% url 'groups' %}"><i class="fa fa-users"></i>Groups</a><hr class="desk-hr">
-				<a class="desk-item" href="{% url 'message' %}"><i class="fa fa-envelope"></i>Messages</a><hr class="desk-hr">
-				<a class="desk-item" href="{% url 'password_reset' %}">Reset Password</a><hr class="desk-hr">
+				<a class="desk-item" href="{% url 'home' %}"><i class="fa fa-home"></i>Home</a>
+				<a class="desk-item" href="{% url 'groups' %}"><i class="fa fa-users"></i>Groups</a>
+				<a class="desk-item" href="{% url 'message' %}"><i class="fa fa-envelope"></i>Messages</a>
+				<a class="desk-item" href="{% url 'message' %}"><i class="fa fa-envelope"></i>Project Showcases</a>
+				<a class="desk-item" href="{% url 'message' %}"><i class="fa fa-envelope"></i>Settings</a>
+				<a class="desk-item" href="{% url 'password_reset' %}">Reset Password</a>
 				<a href="#" class="mob-item">Settings</a><hr class="mob-hr">
 				<a href="{% url 'password_reset' %}" class="mob-item">Reset Password</a><hr class="mob-hr">
 			<!-- 	<a href="#" class="mob-item">About</a><hr class="mob-hr">
@@ -213,7 +214,74 @@
             navigator.serviceWorker.register("{% static 'main/sw.js' %}")
         } -->
     </script>
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+	$(document).ready(function () {
+		$(".like-form").submit(function (e) {
+			e.preventDefault();
+
+			const postId = $(this).data("post-id");
+			const form = $(this);
+			const button = form.find("button");
+			const svg = button.find("svg");
+			const countEl = $("#like-count-" + postId);
+			const csrfToken = form.find("input[name='csrfmiddlewaretoken']").val();
+
+			// Add CSS for the animation
+			const style = document.createElement('style');
+			style.innerHTML = `
+				@keyframes likeAnimation {
+					0% { transform: scale(1); }
+					25% { transform: scale(1.2); }
+					50% { transform: scale(0.95); }
+					100% { transform: scale(1); }
+				}
+				.like-animation {
+					animation: likeAnimation 0.45s ease-in-out;
+				}
+			`;
+			document.head.appendChild(style);
+
+			$.ajax({
+				type: "POST",
+				url: form.attr("action"),
+				data: {
+					csrfmiddlewaretoken: csrfToken,
+				},
+				success: function (response) {
+					// Start animation
+					svg.addClass("like-animation");
+					
+					// Remove the animation class after it completes
+					setTimeout(function() {
+						svg.removeClass("like-animation");
+					}, 450);
+					
+					if (response.liked) {
+						// User liked the post
+						svg.css({
+							"fill": "#e0245e",
+							"stroke": "#e0245e",
+							"stroke-width": "1"
+						});
+					} else {
+						// User unliked the post
+						svg.css({
+							"fill": "none",
+							"stroke": "currentColor",
+							"stroke-width": "2"
+						});
+					}
+					countEl.text(response.like_count);
+				},
+				error: function () {
+					alert("Something went wrong 😓");
+				}
+			});
+		});
+	});
+	</script>
+	
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
